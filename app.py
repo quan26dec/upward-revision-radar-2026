@@ -18,3 +18,8 @@ financial_url = "https://api.jquants.com/v2/fins/summary"
 financial_response = requests.get(financial_url, params={"code": "7751"}, headers=headers)
 st.write("決算API ステータス:", financial_response.status_code)
 st.write("決算API 応答内容:", financial_response.text)
+
+financial_data = financial_response.json()["data"]
+financial_df = pd.DataFrame(financial_data)
+latest_financial = financial_df.sort_values("DiscDate", ascending=False).iloc[0]
+st.write("最新決算:", latest_financial[["DiscDate", "CurPerType", "Sales", "OP", "FSales", "FOP"]])
