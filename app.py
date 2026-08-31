@@ -14,7 +14,7 @@ if response.status_code == 200:
 else:
     st.error(f"❌ J-Quants 接続失敗：{response.status_code}")
 
-financial_url = "https://api.jquants.com/v2/fins/statements"
-financial_response = requests.get(financial_url, headers=headers)
+financial_url = "https://api.jquants.com/v2/fins/summary"
+financial_response = requests.get(financial_url, params={"code": "7751"}, headers=headers)
 st.write("決算API ステータス:", financial_response.status_code)
 st.write("決算API 応答内容:", financial_response.text)
