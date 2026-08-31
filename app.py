@@ -23,3 +23,5 @@ financial_data = financial_response.json()["data"]
 financial_df = pd.DataFrame(financial_data)
 latest_financial = financial_df.sort_values("DiscDate", ascending=False).iloc[0]
 st.write("最新決算:", latest_financial[["DiscDate", "CurPerType", "Sales", "OP", "FSales", "FOP"]])
+op_progress = float(latest_financial["OP"]) / float(latest_financial["FOP"]) * 100
+st.write("📡 営業利益進捗率:", round(op_progress, 1), "%")
