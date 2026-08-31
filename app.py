@@ -30,3 +30,5 @@ same_period_df = financial_df[financial_df["CurPerType"] == current_period].copy
 same_period_df = same_period_df.sort_values("DiscDate", ascending=False)
 previous_same_period = same_period_df.iloc[1] if len(same_period_df) > 1 else None
 st.write("前年同期決算:", previous_same_period[["DiscDate", "CurPerType", "Sales", "OP"]] if previous_same_period is not None else "データなし")
+op_yoy = (float(latest_financial["OP"]) / float(previous_same_period["OP"]) - 1) * 100
+st.write("📈 営業利益 前年同期比:", round(op_yoy, 1), "%")
