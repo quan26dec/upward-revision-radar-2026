@@ -17,3 +17,4 @@ else:
 financial_url = "https://api.jquants.com/v2/fins/statements"
 financial_response = requests.get(financial_url, headers=headers)
 st.write("決算API ステータス:", financial_response.status_code)
+st.write("決算API 応答内容:", financial_response.text)
