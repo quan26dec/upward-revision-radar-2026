@@ -25,6 +25,7 @@ for code in test_codes:
     st.write("データ件数:", len(test_response.json()["data"]))
     test_df = pd.DataFrame(test_response.json()["data"])
     test_latest = test_df.sort_values("DiscDate", ascending=False).iloc[0]
+    st.write("最新決算:", code, test_latest["DiscDate"], test_latest["CurPerType"])
 financial_response = requests.get(financial_url, params={"code": stock_code}, headers=headers)
 st.write("決算API ステータス:", financial_response.status_code)
 
