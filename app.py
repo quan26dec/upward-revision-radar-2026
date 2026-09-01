@@ -22,6 +22,7 @@ for code in test_codes:
     st.write("テスト銘柄:", code)
     test_response = requests.get(financial_url, params={"code": code}, headers=headers)
     st.write("API:", code, test_response.status_code)
+    st.write("データ件数:", len(test_response.json()["data"]))
 financial_response = requests.get(financial_url, params={"code": stock_code}, headers=headers)
 st.write("決算API ステータス:", financial_response.status_code)
 
