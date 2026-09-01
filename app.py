@@ -32,5 +32,11 @@ previous_same_period = same_period_df.iloc[1] if len(same_period_df) > 1 else No
 st.write("前年同期決算:", previous_same_period[["DiscDate", "CurPerType", "Sales", "OP"]] if previous_same_period is not None else "データなし")
 op_yoy = (float(latest_financial["OP"]) / float(previous_same_period["OP"]) - 1) * 100
 st.write("📈 営業利益 前年同期比:", round(op_yoy, 1), "%")
-revision_candidate = (op_progress >= 45) and (op_yoy >= 5)
+if current_period == "1Q":
+    progress_threshold = 35
+elif current_period == "2Q":
+    progress_threshold = 70
+elif current_period == "3Q":
+    progress_threshold = 85
+revision_candidate = (op_progress >= progress_threshold) and (op_yoy > 0)
 st.write("📡 上方修正候補:", "🔥 候補" if revision_candidate else "―")
