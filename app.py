@@ -30,9 +30,12 @@ st.write("最新決算:", latest_financial[["DiscDate", "CurPerType", "Sales", "
 op_progress = latest_op / latest_fop * 100 if op_valid and fop_valid else None
 st.write("📡 営業利益進捗率:", round(op_progress, 1) if op_progress is not None else "算出不可", "%" if op_progress is not None else "")
 current_period = latest_financial["CurPerType"]
+current_fy_end = latest_financial["CurFYEn"]
+previous_fy_end = str(int(str(current_fy_end)[:4]) - 1) + str(current_fy_end)[4:]
 same_period_df = financial_df[financial_df["CurPerType"] == current_period].copy()
+previous_same_period_df = same_period_df[same_period_df["CurFYEn"].astype(str) == previous_fy_end].copy()
 same_period_df = same_period_df.sort_values("DiscDate", ascending=False)
-previous_same_period = same_period_df.iloc[1] if len(same_period_df) > 1 else None
+previous_same_period = previous_same_period_df.sort_values("DiscDate", ascending=False).iloc[0] if len(previous_same_period_df) > 0 else None
 previous_data_valid = previous_same_period is not None
 st.write("前年同期決算:", previous_same_period[["DiscDate", "CurPerType", "Sales", "OP"]] if previous_same_period is not None else "データなし")
 
