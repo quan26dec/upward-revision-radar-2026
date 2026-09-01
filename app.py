@@ -16,6 +16,8 @@ else:
 
 financial_url = "https://api.jquants.com/v2/fins/summary"
 stock_code = st.text_input("銘柄コード", value="7751")
+test_codes = ["7751", "7965", "6501", "7203", "8035"]
+st.write("📡 5銘柄テスト:", test_codes)
 financial_response = requests.get(financial_url, params={"code": stock_code}, headers=headers)
 st.write("決算API ステータス:", financial_response.status_code)
 
