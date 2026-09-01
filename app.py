@@ -23,6 +23,8 @@ for code in test_codes:
     test_response = requests.get(financial_url, params={"code": code}, headers=headers)
     st.write("API:", code, test_response.status_code)
     st.write("データ件数:", len(test_response.json()["data"]))
+    test_df = pd.DataFrame(test_response.json()["data"])
+    test_latest = test_df.sort_values("DiscDate", ascending=False).iloc[0]
 financial_response = requests.get(financial_url, params={"code": stock_code}, headers=headers)
 st.write("決算API ステータス:", financial_response.status_code)
 
