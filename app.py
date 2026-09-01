@@ -20,6 +20,8 @@ test_codes = ["7751", "7965", "6501", "7203", "8035"]
 st.write("📡 5銘柄テスト:", test_codes)
 for code in test_codes:
     st.write("テスト銘柄:", code)
+    test_response = requests.get(financial_url, params={"code": code}, headers=headers)
+    st.write("API:", code, test_response.status_code)
 financial_response = requests.get(financial_url, params={"code": stock_code}, headers=headers)
 st.write("決算API ステータス:", financial_response.status_code)
 
