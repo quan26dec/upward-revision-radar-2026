@@ -34,6 +34,8 @@ op_yoy = (float(latest_financial["OP"]) / float(previous_same_period["OP"]) - 1)
 st.write("📈 営業利益 前年同期比:", round(op_yoy, 1), "%")
 previous_op_progress = float(previous_same_period["OP"]) / float(previous_same_period["FOP"]) * 100
 st.write("📊 前年同期の営業利益進捗率:", round(previous_op_progress, 1), "%")
+progress_diff = op_progress - previous_op_progress
+st.write("📈 前年同期進捗差:", round(progress_diff, 1), "pt")
 if current_period == "1Q":
     progress_threshold = 35
 elif current_period == "2Q":
