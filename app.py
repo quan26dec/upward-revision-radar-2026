@@ -56,5 +56,7 @@ elif current_period == "2Q":
     progress_threshold = 70
 elif current_period == "3Q":
     progress_threshold = 85
-revision_candidate = (op_progress is not None) and (op_progress >= progress_threshold) and (op_yoy is not None) and (op_yoy > 0)
+else:
+    progress_threshold = None
+revision_candidate = (progress_threshold is not None) and (op_progress is not None) and (op_progress >= progress_threshold) and (op_yoy is not None) and (op_yoy > 0)
 st.write("📡 上方修正候補:", "🔥 候補" if revision_candidate else "―")
