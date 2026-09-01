@@ -18,7 +18,6 @@ financial_url = "https://api.jquants.com/v2/fins/summary"
 stock_code = st.text_input("銘柄コード", value="7751")
 financial_response = requests.get(financial_url, params={"code": stock_code}, headers=headers)
 st.write("決算API ステータス:", financial_response.status_code)
-st.write("決算API 応答内容:", financial_response.text)
 
 financial_data = financial_response.json()["data"]
 financial_df = pd.DataFrame(financial_data)
