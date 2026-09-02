@@ -102,26 +102,26 @@ def analyze_stock(code):
             headers=headers
         )
 
-if response.status_code == 429:
-    st.write("⏳ 429発生。3秒待って再試行:", code)
-    time.sleep(3)
-
-    response = requests.get(
-        financial_url,
-        params={"code": code},
-        headers=headers
-    )
-
-if response.status_code != 200:
-    st.write("⚠️ APIエラー:", code, response.status_code)
-    return None
-
-        data = response.json()["data"]
-
-        if len(data) == 0:
+        if response.status_code == 429:
+            st.write("⏳ 429発生。3秒待って再試行:", code)
+            time.sleep(3)
+        
+            response = requests.get(
+                financial_url,
+                params={"code": code},
+                headers=headers
+            )
+        
+        if response.status_code != 200:
+            st.write("⚠️ APIエラー:", code, response.status_code)
             return None
-
-        df = pd.DataFrame(data)
+        
+                data = response.json()["data"]
+        
+                if len(data) == 0:
+                    return None
+        
+                df = pd.DataFrame(data)
 
         latest = df.sort_values("DiscDate", ascending=False).iloc[0]
 
