@@ -353,3 +353,32 @@ st.dataframe(
         ascending=False
     ).head(15)
 )
+
+# 今期のFOP変更チェック
+current_fy = revision_df.sort_values(
+    "DiscDate",
+    ascending=False
+).iloc[0]["CurFYEn"]
+
+current_fy_df = revision_df[
+    revision_df["CurFYEn"].astype(str) == str(current_fy)
+].copy()
+
+fop_history = pd.to_numeric(
+    current_fy_df["FOP"],
+    errors="coerce"
+).dropna()
+
+fop_changed = (
+    fop_history.nunique() > 1
+)
+
+st.write(
+    "📡 今期FOP変更:",
+    "⚠️ 変更あり" if fop_changed else "🔥 据え置き"
+)
+
+st.write(
+    "今期FOPの種類:",
+    fop_history.unique()
+)
