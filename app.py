@@ -17,30 +17,11 @@ else:
 master_data = response.json()["data"]
 master_df = pd.DataFrame(master_data)
 
-stock_master_df = master_df[
-    master_df["ProdCat"].astype(str) == "11"
-].copy()
-
-# 銘柄コードを4桁にする
-stock_master_df["Code4"] = (
-    stock_master_df["Code"]
-    .astype(str)
-    .str[:4]
-)
-
-test_50_codes = stock_master_df["Code4"].head(50).tolist()
-
-st.write("📡 普通株50銘柄テスト")
-st.write(test_50_codes)
-
-# まず50銘柄だけテスト
-test_50_codes = stock_master_df["Code4"].head(50).tolist()
-
-st.write("📡 普通株50銘柄テスト")
-st.write(test_50_codes)
-
 st.write("銘柄マスター件数:", len(master_df))
 st.dataframe(master_df.head())
+
+st.write("ProdCatの種類:")
+st.write(master_df["ProdCat"].value_counts())
 
 financial_url = "https://api.jquants.com/v2/fins/summary"
 stock_code = st.text_input("銘柄コード", value="7751")
