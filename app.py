@@ -244,3 +244,54 @@ if len(candidate_df) > 0:
     st.dataframe(candidate_df)
 else:
     st.write("現在、条件を満たす候補はありません")
+
+st.subheader("📡 普通株50銘柄スクリーニング")
+
+if st.button("🚀 50銘柄をスクリーニング"):
+
+    results_50 = []
+
+    progress_bar = st.progress(0)
+    status_text = st.empty()
+
+    total = len(test_50_codes)
+
+    for i, code in enumerate(test_50_codes):
+
+        status_text.write(
+            f"分析中: {i + 1} / {total}　銘柄コード {code}"
+        )
+
+        result = analyze_stock(code)
+
+        if result is not None:
+            results_50.append(result)
+
+        progress_bar.progress((i + 1) / total)
+
+    screen_50_df = pd.DataFrame(results_50)
+
+    status_text.write("✅ 50銘柄スクリーニング完了")
+
+    st.write(
+        "分析できた銘柄数:",
+        len(screen_50_df)
+    )
+
+    if len(screen_50_df) > 0:
+
+        st.dataframe(screen_50_df)
+
+        candidate_50_df = screen_50_df[
+            screen_50_df["RevisionCandidate"] == True
+        ].copy()
+
+        st.subheader("🔥 50銘柄の上方修正候補")
+
+        if len(candidate_50_df) > 0:
+            st.dataframe(candidate_50_df)
+        else:
+            st.write("条件を満たす候補はありません")
+
+    else:
+        st.write("分析できる銘柄がありませんでした")
