@@ -116,15 +116,14 @@ def analyze_stock(code):
             st.write("⚠️ APIエラー:", code, response.status_code)
             return None
         
-                data = response.json()["data"]
-        
-                if len(data) == 0:
-                    return None
-        
-                df = pd.DataFrame(data)
+        data = response.json()["data"]
 
-                latest = df.sort_values("DiscDate", ascending=False).iloc[0]
+        if len(data) == 0:
+            return None
 
+        df = pd.DataFrame(data)
+
+        latest = df.sort_values("DiscDate", ascending=False).iloc[0]
         latest_op = pd.to_numeric(latest["OP"], errors="coerce")
         latest_fop = pd.to_numeric(latest["FOP"], errors="coerce")
 
