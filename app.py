@@ -350,7 +350,7 @@ if st.button("🚀 50銘柄をスクリーニング"):
 
 st.subheader("🔍 業績予想修正履歴テスト")
 
-revision_test_code = "1434"
+revision_test_code = "1433"
 
 revision_response = requests.get(
     financial_url,
