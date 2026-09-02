@@ -123,7 +123,7 @@ def analyze_stock(code):
         
                 df = pd.DataFrame(data)
 
-        latest = df.sort_values("DiscDate", ascending=False).iloc[0]
+                latest = df.sort_values("DiscDate", ascending=False).iloc[0]
 
         latest_op = pd.to_numeric(latest["OP"], errors="coerce")
         latest_fop = pd.to_numeric(latest["FOP"], errors="coerce")
