@@ -288,10 +288,37 @@ if st.button("🚀 50銘柄をスクリーニング"):
 
         st.subheader("🔥 50銘柄の上方修正候補")
 
-        if len(candidate_50_df) > 0:
-            st.dataframe(candidate_50_df)
-        else:
-            st.write("条件を満たす候補はありません")
+    if len(candidate_50_df) > 0:
+    
+        name_df = stock_master_df[
+            ["Code4", "CoName"]
+        ].drop_duplicates()
+    
+        candidate_50_df = candidate_50_df.merge(
+            name_df,
+            left_on="Code",
+            right_on="Code4",
+            how="left"
+        )
+    
+        candidate_50_df = candidate_50_df[
+            [
+                "Code",
+                "CoName",
+                "DiscDate",
+                "Period",
+                "OPProgress",
+                "OPYoY",
+                "PrevProgress",
+                "ProgressDiff",
+                "RevisionCandidate"
+            ]
+        ]
+    
+        st.dataframe(candidate_50_df)
+    
+    else:
+        st.write("条件を満たす候補はありません")
 
     else:
         st.write("分析できる銘柄がありませんでした")
