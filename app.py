@@ -358,8 +358,24 @@ revision_response = requests.get(
     headers=headers
 )
 
+revision_json = revision_response.json()
+
+st.write(
+    "修正履歴APIステータス:",
+    revision_response.status_code
+)
+
+st.write(
+    "返却キー:",
+    list(revision_json.keys())
+)
+
+if "data" not in revision_json:
+    st.warning("⚠️ dataが返ってきませんでした")
+    st.stop()
+
 revision_df = pd.DataFrame(
-    revision_response.json()["data"]
+    revision_json["data"]
 )
 
 st.dataframe(
