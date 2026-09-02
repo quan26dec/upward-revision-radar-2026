@@ -222,3 +222,14 @@ if len(candidate_df) > 0:
     st.dataframe(candidate_df)
 else:
     st.write("現在、条件を満たす候補はありません")
+
+st.subheader("🔥 上方修正候補")
+
+candidate_df = screen_df[
+    screen_df["RevisionCandidate"] == True
+].copy()
+
+if len(candidate_df) > 0:
+    st.dataframe(candidate_df)
+else:
+    st.write("現在、条件を満たす候補はありません")
