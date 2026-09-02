@@ -305,16 +305,21 @@ if st.button("🚀 50銘柄をスクリーニング"):
             [
                 "Code",
                 "CoName",
-                "DiscDate",
                 "Period",
                 "OPProgress",
-                "OPYoY",
                 "PrevProgress",
                 "ProgressDiff",
+                "OPYoY",
+                "DiscDate",
                 "RevisionCandidate"
             ]
         ]
-    
+
+        candidate_50_df = candidate_50_df.sort_values(
+            ["ProgressDiff", "OPYoY"],
+            ascending=[False, False]
+        )
+        
         st.dataframe(candidate_50_df)
     
     else:
