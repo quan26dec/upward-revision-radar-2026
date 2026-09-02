@@ -102,9 +102,19 @@ def analyze_stock(code):
             headers=headers
         )
 
-        if response.status_code != 200:
-            st.write("⚠️ APIエラー:", code, response.status_code)
-            return None
+if response.status_code == 429:
+    st.write("⏳ 429発生。3秒待って再試行:", code)
+    time.sleep(3)
+
+    response = requests.get(
+        financial_url,
+        params={"code": code},
+        headers=headers
+    )
+
+if response.status_code != 200:
+    st.write("⚠️ APIエラー:", code, response.status_code)
+    return None
 
         data = response.json()["data"]
 
