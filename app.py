@@ -180,6 +180,26 @@ def analyze_stock(code):
         else:
             progress_diff = None
 
+        # 今期FOP変更チェック
+        current_fy_df = df[
+            df["CurFYEn"].astype(str) == str(current_fy_end)
+        ].copy()
+        
+        fop_history = pd.to_numeric(
+            current_fy_df["FOP"],
+            errors="coerce"
+        ).dropna()
+        
+        fop_changed = (
+            fop_history.nunique() > 1
+        )
+        
+        fop_status = (
+            "⚠️ 変更あり"
+            if fop_changed
+            else "🔥 据え置き"
+        )
+
         # 四半期ごとの基準
         if current_period == "1Q":
             progress_threshold = 35
@@ -214,6 +234,8 @@ def analyze_stock(code):
             if previous_progress is not None else None,
             "ProgressDiff": round(progress_diff, 1)
             if progress_diff is not None else None,
+            "FOPChanged": fop_changed,
+            "FOPStatus": fop_status,
             "RevisionCandidate": revision_candidate
         }
 
@@ -310,6 +332,7 @@ if st.button("🚀 50銘柄をスクリーニング"):
                 "PrevProgress",
                 "ProgressDiff",
                 "OPYoY",
+                "FOPStatus",
                 "DiscDate",
                 "RevisionCandidate"
             ]
