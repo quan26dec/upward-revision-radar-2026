@@ -20,8 +20,21 @@ master_df = pd.DataFrame(master_data)
 st.write("銘柄マスター件数:", len(master_df))
 st.dataframe(master_df.head())
 
-st.write("ProdCatの種類:")
-st.write(master_df["ProdCat"].value_counts())
+stock_master_df = master_df[
+    master_df["ProdCat"].astype(str) == "011"
+].copy()
+
+stock_master_df["Code4"] = (
+    stock_master_df["Code"]
+    .astype(str)
+    .str[:4]
+)
+
+test_50_codes = stock_master_df["Code4"].head(50).tolist()
+
+st.write("📡 普通株50銘柄テスト")
+st.write("普通株件数:", len(stock_master_df))
+st.write(test_50_codes)
 
 financial_url = "https://api.jquants.com/v2/fins/summary"
 stock_code = st.text_input("銘柄コード", value="7751")
