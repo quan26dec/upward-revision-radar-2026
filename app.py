@@ -103,6 +103,7 @@ def analyze_stock(code):
         )
 
         if response.status_code != 200:
+            st.write("⚠️ APIエラー:", code, response.status_code)
             return None
 
         data = response.json()["data"]
