@@ -325,4 +325,31 @@ if st.button("🚀 50銘柄をスクリーニング"):
     else:
         st.write("条件を満たす候補はありません")
 
+st.subheader("🔍 業績予想修正履歴テスト")
 
+revision_test_code = "1434"
+
+revision_response = requests.get(
+    financial_url,
+    params={"code": revision_test_code},
+    headers=headers
+)
+
+revision_df = pd.DataFrame(
+    revision_response.json()["data"]
+)
+
+st.dataframe(
+    revision_df[
+        [
+            "DiscDate",
+            "CurPerType",
+            "CurFYEn",
+            "OP",
+            "FOP"
+        ]
+    ].sort_values(
+        "DiscDate",
+        ascending=False
+    ).head(15)
+)
