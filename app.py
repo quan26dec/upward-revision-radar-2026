@@ -70,3 +70,144 @@ else:
     progress_threshold = None
 revision_candidate = (progress_threshold is not None) and (op_progress is not None) and (op_progress >= progress_threshold) and (op_yoy is not None) and (op_yoy > 0)
 st.write("📡 上方修正候補:", "🔥 候補" if revision_candidate else "―")
+
+def analyze_stock(code):
+    try:
+        response = requests.get(
+            financial_url,
+            params={"code": code},
+            headers=headers
+        )
+
+        if response.status_code != 200:
+            return None
+
+        data = response.json()["data"]
+
+        if len(data) == 0:
+            return None
+
+        df = pd.DataFrame(data)
+
+        latest = df.sort_values("DiscDate", ascending=False).iloc[0]
+
+        latest_op = pd.to_numeric(latest["OP"], errors="coerce")
+        latest_fop = pd.to_numeric(latest["FOP"], errors="coerce")
+
+        if pd.isna(latest_op) or pd.isna(latest_fop) or latest_fop == 0:
+            return None
+
+        op_progress = latest_op / latest_fop * 100
+
+        current_period = latest["CurPerType"]
+        current_fy_end = latest["CurFYEn"]
+
+        previous_fy_end = (
+            str(int(str(current_fy_end)[:4]) - 1)
+            + str(current_fy_end)[4:]
+        )
+
+        previous_df = df[
+            (df["CurPerType"] == current_period)
+            & (df["CurFYEn"].astype(str) == previous_fy_end)
+        ].copy()
+
+        if len(previous_df) == 0:
+            return None
+
+        previous = previous_df.sort_values(
+            "DiscDate",
+            ascending=False
+        ).iloc[0]
+
+        previous_op = pd.to_numeric(
+            previous["OP"],
+            errors="coerce"
+        )
+
+        previous_fop = pd.to_numeric(
+            previous["FOP"],
+            errors="coerce"
+        )
+
+        if pd.isna(previous_op):
+            return None
+
+        # 前年同期比
+        if previous_op > 0:
+            op_yoy = (latest_op / previous_op - 1) * 100
+        else:
+            op_yoy = None
+
+        # 前年同期進捗率
+        if (
+            pd.notna(previous_fop)
+            and previous_fop != 0
+        ):
+            previous_progress = (
+                previous_op / previous_fop * 100
+            )
+        else:
+            previous_progress = None
+
+        # 進捗差
+        if previous_progress is not None:
+            progress_diff = (
+                op_progress - previous_progress
+            )
+        else:
+            progress_diff = None
+
+        # 四半期ごとの基準
+        if current_period == "1Q":
+            progress_threshold = 35
+
+        elif current_period == "2Q":
+            progress_threshold = 70
+
+        elif current_period == "3Q":
+            progress_threshold = 85
+
+        else:
+            progress_threshold = None
+
+        # 上方修正候補判定
+        revision_candidate = (
+            progress_threshold is not None
+            and op_progress >= progress_threshold
+            and op_yoy is not None
+            and op_yoy > 0
+        )
+
+        return {
+            "Code": code,
+            "DiscDate": latest["DiscDate"],
+            "Period": current_period,
+            "OP": latest_op,
+            "FOP": latest_fop,
+            "OPProgress": round(op_progress, 1),
+            "OPYoY": round(op_yoy, 1)
+            if op_yoy is not None else None,
+            "PrevProgress": round(previous_progress, 1)
+            if previous_progress is not None else None,
+            "ProgressDiff": round(progress_diff, 1)
+            if progress_diff is not None else None,
+            "RevisionCandidate": revision_candidate
+        }
+
+    except Exception as e:
+        st.write("エラー:", code, e)
+        return None
+st.subheader("📡 5銘柄スクリーニングテスト")
+
+screen_results = []
+
+for code in test_codes:
+    result = analyze_stock(code)
+
+    if result is not None:
+        screen_results.append(result)
+
+screen_df = pd.DataFrame(screen_results)
+
+st.dataframe(screen_df)
