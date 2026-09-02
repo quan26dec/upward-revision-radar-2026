@@ -1,6 +1,7 @@
 import streamlit as st
 import requests
 import pandas as pd
+import time
 
 JQUANTS_API_KEY = st.secrets["JQUANTS_API_KEY"]
 
@@ -248,6 +249,8 @@ screen_results = []
 
 for code in test_codes:
     result = analyze_stock(code)
+
+    time.sleep(0.3)
 
     if result is not None:
         screen_results.append(result)
