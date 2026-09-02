@@ -14,6 +14,12 @@ if response.status_code == 200:
 else:
     st.error(f"❌ J-Quants 接続失敗：{response.status_code}")
 
+master_data = response.json()["data"]
+master_df = pd.DataFrame(master_data)
+
+st.write("銘柄マスター件数:", len(master_df))
+st.dataframe(master_df.head())
+
 financial_url = "https://api.jquants.com/v2/fins/summary"
 stock_code = st.text_input("銘柄コード", value="7751")
 test_codes = ["7751", "7965", "6501", "7203", "8035"]
@@ -211,17 +217,6 @@ for code in test_codes:
 screen_df = pd.DataFrame(screen_results)
 
 st.dataframe(screen_df)
-
-st.subheader("🔥 上方修正候補")
-
-candidate_df = screen_df[
-    screen_df["RevisionCandidate"] == True
-].copy()
-
-if len(candidate_df) > 0:
-    st.dataframe(candidate_df)
-else:
-    st.write("現在、条件を満たす候補はありません")
 
 st.subheader("🔥 上方修正候補")
 
