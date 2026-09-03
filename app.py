@@ -65,13 +65,11 @@ def analyze_stock(code):
                 headers=headers
             )        
         if response.status_code != 200:
-            st.write("⚠️ APIエラー:", code, response.status_code)
             return None
             
         data = response.json()["data"]
 
         if len(data) == 0:
-            st.write("⚠️ 分析不可:", code, "決算データなし")
             return None
 
         df = pd.DataFrame(data)
@@ -81,7 +79,6 @@ def analyze_stock(code):
         latest_fop = pd.to_numeric(latest["FOP"], errors="coerce")
 
         if pd.isna(latest_op) or pd.isna(latest_fop) or latest_fop == 0:
-            st.write("⚠️ 分析不可:", code, "最新OP/FOP不足")
             return None
 
         op_progress = latest_op / latest_fop * 100
@@ -100,7 +97,6 @@ def analyze_stock(code):
         ].copy()
 
         if len(previous_df) == 0:
-            st.write("⚠️ 分析不可:", code, "前年同期データなし")
             return None
     
         previous = previous_df.sort_values(
@@ -119,7 +115,6 @@ def analyze_stock(code):
         )
 
         if pd.isna(previous_op):
-            st.write("⚠️ 分析不可:", code, "前年同期OP不足")
             return None
 
         # 前年同期比
@@ -215,7 +210,8 @@ st.subheader("📡 普通株50銘柄スクリーニング")
 if st.button("🚀 50銘柄をスクリーニング"):
 
     results_50 = []
-
+    excluded_count = 0
+    
     progress_bar = st.progress(0)
     status_text = st.empty()
 
@@ -233,6 +229,8 @@ if st.button("🚀 50銘柄をスクリーニング"):
 
         if result is not None:
             results_50.append(result)
+        else:
+            excluded_count += 1
 
         progress_bar.progress((i + 1) / total)
 
@@ -248,6 +246,12 @@ if st.button("🚀 50銘柄をスクリーニング"):
         "社"
     )
 
+    st.write(
+        "⏭️ 判定対象外:",
+        excluded_count,
+        "社"
+    )
+    
     if len(screen_50_df) > 0:
 
         st.dataframe(screen_50_df)
