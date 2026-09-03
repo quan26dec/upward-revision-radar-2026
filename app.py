@@ -175,6 +175,11 @@ def analyze_stock(code):
         else:
             progress_threshold = None
 
+        if progress_threshold is not None:
+            threshold_gap = op_progress - progress_threshold
+        else:
+            threshold_gap = None
+        
         # 上方修正候補判定
         revision_candidate = (
             progress_threshold is not None
@@ -196,6 +201,8 @@ def analyze_stock(code):
             if previous_progress is not None else None,
             "ProgressDiff": round(progress_diff, 1)
             if progress_diff is not None else None,
+            "ThresholdGap": round(threshold_gap, 1)
+            if threshold_gap is not None else None,
             "FOPChanged": fop_changed,
             "FOPStatus": fop_status,
             "RevisionCandidate": revision_candidate
