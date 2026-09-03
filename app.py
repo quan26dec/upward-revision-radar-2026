@@ -232,7 +232,7 @@ if st.button("🚀 100銘柄をスクリーニング"):
 
         result = analyze_stock(code)
 
-        time.sleep(0.3)
+        time.sleep(0.5)
 
         if result is not None:
             results_50.append(result)
