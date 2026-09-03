@@ -313,37 +313,37 @@ if st.button("🚀 50銘柄をスクリーニング"):
     else:
         st.write("条件を満たす候補はありません")
 
-        st.subheader("👀 基準直前候補")
+    st.subheader("👀 基準直前候補")
 
-        if len(near_candidate_df) > 0:
+    if len(near_candidate_df) > 0:
 
-            near_candidate_df = near_candidate_df.merge(
-                name_df,
-                left_on="Code",
-                right_on="Code4",
-                how="left"
-            )            
+        near_candidate_df = near_candidate_df.merge(
+            name_df,
+            left_on="Code",
+            right_on="Code4",
+            how="left"
+        )            
 
-            near_candidate_df = near_candidate_df[
-                [
-                    "Code",
-                    "CoName",
-                    "Period",
-                    "OPProgress",
-                    "ThresholdGap",
-                    "PrevProgress",
-                    "ProgressDiff",
-                    "OPYoY",
-                    "FOPStatus",
-                    "DiscDate"
-                ]
-            ]
-
-            near_candidate_df = near_candidate_df.sort_values(
+        near_candidate_df = near_candidate_df[
+            [
+                "Code",
+                "CoName",
+                "Period",
+                "OPProgress",
                 "ThresholdGap",
-                ascending=False
-            )
-            
-            st.dataframe(near_candidate_df)
-        else:
-            st.write("基準直前の候補はありません")
+                "PrevProgress",
+                "ProgressDiff",
+                "OPYoY",
+                "FOPStatus",
+                "DiscDate"
+            ]
+        ]
+
+        near_candidate_df = near_candidate_df.sort_values(
+            "ThresholdGap",
+            ascending=False
+        )
+        
+        st.dataframe(near_candidate_df)
+    else:
+        st.write("基準直前の候補はありません")
