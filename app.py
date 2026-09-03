@@ -80,6 +80,7 @@ def analyze_stock(code):
         latest_fop = pd.to_numeric(latest["FOP"], errors="coerce")
 
         if pd.isna(latest_op) or pd.isna(latest_fop) or latest_fop == 0:
+            st.write("⚠️ 分析不可:", code, "最新OP/FOP不足")
             return None
 
         op_progress = latest_op / latest_fop * 100
@@ -98,8 +99,9 @@ def analyze_stock(code):
         ].copy()
 
         if len(previous_df) == 0:
+            st.write("⚠️ 分析不可:", code, "前年同期データなし")
             return None
-
+    
         previous = previous_df.sort_values(
             "DiscDate",
             ascending=False
@@ -116,6 +118,7 @@ def analyze_stock(code):
         )
 
         if pd.isna(previous_op):
+            st.write("⚠️ 分析不可:", code, "前年同期OP不足")
             return None
 
         # 前年同期比
