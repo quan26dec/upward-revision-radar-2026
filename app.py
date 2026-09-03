@@ -349,7 +349,7 @@ if st.button("🚀 100銘柄をスクリーニング"):
         ]
 
         near_candidate_df = near_candidate_df.sort_values(
-            "ThresholdGap",
+            "NearScore",
             ascending=False
         )
         
