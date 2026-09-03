@@ -263,6 +263,10 @@ if st.button("🚀 50銘柄をスクリーニング"):
 
         st.dataframe(screen_50_df)
 
+        name_df = stock_master_df[
+            ["Code4", "CoName"]
+        ].drop_duplicates()
+        
         near_candidate_df = screen_50_df[
             (screen_50_df["ThresholdGap"] >= -5)
             & (screen_50_df["ThresholdGap"] < 0)
@@ -281,10 +285,6 @@ if st.button("🚀 50銘柄をスクリーニング"):
         st.subheader("🔥 50銘柄の上方修正候補")
 
     if len(candidate_50_df) > 0:
-    
-        name_df = stock_master_df[
-            ["Code4", "CoName"]
-        ].drop_duplicates()
     
         candidate_50_df = candidate_50_df.merge(
             name_df,
