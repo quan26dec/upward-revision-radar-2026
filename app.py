@@ -263,6 +263,11 @@ if st.button("🚀 50銘柄をスクリーニング"):
 
         st.dataframe(screen_50_df)
 
+        near_candidate_df = screen_50_df[
+            (screen_50_df["ThresholdGap"] >= -5)
+            & (screen_50_df["ThresholdGap"] < 0)
+        ].copy()
+        
         candidate_50_df = screen_50_df[
             screen_50_df["RevisionCandidate"] == True
         ].copy()
@@ -288,6 +293,7 @@ if st.button("🚀 50銘柄をスクリーニング"):
                 "CoName",
                 "Period",
                 "OPProgress",
+                "ThresholdGap",
                 "PrevProgress",
                 "ProgressDiff",
                 "OPYoY",
@@ -307,3 +313,37 @@ if st.button("🚀 50銘柄をスクリーニング"):
     else:
         st.write("条件を満たす候補はありません")
 
+        st.subheader("👀 基準直前候補")
+
+        if len(near_candidate_df) > 0:
+
+            near_candidate_df = near_candidate_df.merge(
+                name_df,
+                left_on="Code",
+                right_on="Code4",
+                how="left"
+            )            
+
+            near_candidate_df = near_candidate_df[
+                [
+                    "Code",
+                    "CoName",
+                    "Period",
+                    "OPProgress",
+                    "ThresholdGap",
+                    "PrevProgress",
+                    "ProgressDiff",
+                    "OPYoY",
+                    "FOPStatus",
+                    "DiscDate"
+                ]
+            ]
+
+            near_candidate_df = near_candidate_df.sort_values(
+                "ThresholdGap",
+                ascending=False
+            )
+            
+            st.dataframe(near_candidate_df)
+        else:
+            st.write("基準直前の候補はありません")
