@@ -241,8 +241,11 @@ if st.button("🚀 50銘柄をスクリーニング"):
     status_text.write("✅ 50銘柄スクリーニング完了")
 
     st.write(
-        "分析できた銘柄数:",
-        len(screen_50_df)
+        "📡 判定対象:",
+        len(screen_50_df),
+        "/",
+        total,
+        "社"
     )
 
     if len(screen_50_df) > 0:
