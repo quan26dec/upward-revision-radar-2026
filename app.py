@@ -266,6 +266,8 @@ if st.button("🚀 50銘柄をスクリーニング"):
         near_candidate_df = screen_50_df[
             (screen_50_df["ThresholdGap"] >= -5)
             & (screen_50_df["ThresholdGap"] < 0)
+            & (screen_50_df["ProgressDiff"] > 0)
+            & (screen_50_df["OPYoY"] > 0)
         ].copy()
         
         candidate_50_df = screen_50_df[
