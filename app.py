@@ -71,6 +71,7 @@ def analyze_stock(code):
         data = response.json()["data"]
 
         if len(data) == 0:
+            st.write("⚠️ 分析不可:", code, "決算データなし")
             return None
 
         df = pd.DataFrame(data)
