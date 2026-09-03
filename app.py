@@ -31,9 +31,9 @@ stock_master_df["Code4"] = (
     .str[:4]
 )
 
-test_50_codes = stock_master_df["Code4"].head(100).tolist()
+test_50_codes = stock_master_df["Code4"].head(200).tolist()
 
-st.write("📡 普通株100銘柄テスト")
+st.write("📡 普通株200銘柄テスト")
 st.write("普通株件数:", len(stock_master_df))
 st.write(test_50_codes)
 
@@ -212,9 +212,9 @@ def analyze_stock(code):
         st.write("エラー:", code, e)
         return None
 
-st.subheader("📡 普通株100銘柄スクリーニング")
+st.subheader("📡 普通株200銘柄スクリーニング")
 
-if st.button("🚀 100銘柄をスクリーニング"):
+if st.button("🚀 200銘柄をスクリーニング"):
 
     results_50 = []
     excluded_count = 0
@@ -243,7 +243,7 @@ if st.button("🚀 100銘柄をスクリーニング"):
 
     screen_50_df = pd.DataFrame(results_50)
 
-    status_text.write("✅ 100銘柄スクリーニング完了")
+    status_text.write("✅ 200銘柄スクリーニング完了")
 
     st.write(
         "📡 判定対象:",
@@ -284,7 +284,7 @@ if st.button("🚀 100銘柄をスクリーニング"):
             screen_50_df["RevisionCandidate"] == True
         ].copy()
 
-        st.subheader("🔥 100銘柄の上方修正候補")
+        st.subheader("🔥 200銘柄の上方修正候補")
 
     if len(candidate_50_df) > 0:
     
