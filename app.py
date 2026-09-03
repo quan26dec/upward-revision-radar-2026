@@ -277,7 +277,7 @@ if st.button("🚀 100銘柄をスクリーニング"):
         near_candidate_df["NearScore"] = (
             5 + near_candidate_df["ThresholdGap"]
             + near_candidate_df["ProgressDiff"] / 10
-            + near_candidate_df["OPYoY"] / 10
+            + near_candidate_df["OPYoY"].clip(upper=100) / 10       
         )
         
         candidate_50_df = screen_50_df[
