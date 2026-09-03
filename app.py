@@ -269,6 +269,10 @@ if st.button("🚀 50銘柄をスクリーニング"):
             & (screen_50_df["ProgressDiff"] > 0)
             & (screen_50_df["OPYoY"] > 0)
         ].copy()
+
+        near_candidate_df["NearScore"] = (
+            5 + near_candidate_df["ThresholdGap"]
+        )
         
         candidate_50_df = screen_50_df[
             screen_50_df["RevisionCandidate"] == True
@@ -333,6 +337,7 @@ if st.button("🚀 50銘柄をスクリーニング"):
                 "Period",
                 "OPProgress",
                 "ThresholdGap",
+                "NearScore",
                 "PrevProgress",
                 "ProgressDiff",
                 "OPYoY",
