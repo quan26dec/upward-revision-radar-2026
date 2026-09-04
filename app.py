@@ -660,3 +660,34 @@ if st.button("前年5日分を照合"):
             ]
         ].head(30)
     )
+    st.subheader("🧪 基準値・ThresholdGap 計算")
+
+    threshold_map = {
+        "1Q": 35,
+        "2Q": 70,
+        "3Q": 85
+    }
+
+    calc_df["ProgressThreshold"] = (
+        calc_df["CurPerType"].map(threshold_map)
+    )
+
+    calc_df["ThresholdGap"] = (
+        calc_df["OPProgress"]
+        - calc_df["ProgressThreshold"]
+    )
+
+    st.dataframe(
+        calc_df[
+            [
+                "Code4",
+                "CurPerType",
+                "OPProgress",
+                "ProgressThreshold",
+                "ThresholdGap",
+                "PrevProgress",
+                "ProgressDiff",
+                "OPYoY"
+            ]
+        ].head(30)
+    )
