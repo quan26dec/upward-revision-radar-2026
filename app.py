@@ -385,3 +385,64 @@ if st.button("日付指定テスト"):
                 "pagination_key:",
                 test_json["pagination_key"]
             )
+
+st.subheader("🧪 前年同期照合テスト")
+
+if st.button("前年同期を照合"):
+
+    current_response = requests.get(
+        financial_url,
+        params={"date": "2026-08-07"},
+        headers=headers
+    )
+
+    previous_response = requests.get(
+        financial_url,
+        params={"date": "2025-08-08"},
+        headers=headers
+    )
+
+    st.write("今年ステータス:", current_response.status_code)
+    st.write("前年ステータス:", previous_response.status_code)
+
+    if (
+        current_response.status_code == 200
+        and previous_response.status_code == 200
+    ):
+
+        current_df = pd.DataFrame(
+            current_response.json()["data"]
+        )
+
+        previous_df = pd.DataFrame(
+            previous_response.json()["data"]
+        )
+
+        current_df["Code4"] = (
+            current_df["Code"].astype(str).str[:4]
+        )
+
+        previous_df["Code4"] = (
+            previous_df["Code"].astype(str).str[:4]
+        )
+
+        matched_df = current_df.merge(
+            previous_df,
+            on=["Code4", "CurPerType"],
+            suffixes=("_current", "_previous")
+        )
+
+        st.write("今年取得件数:", len(current_df))
+        st.write("前年取得件数:", len(previous_df))
+        st.write("前年同期一致件数:", len(matched_df))
+
+        st.dataframe(
+            matched_df[
+                [
+                    "Code4",
+                    "CurPerType",
+                    "DiscDate_current",
+                    "DiscDate_previous"
+                ]
+            ].head(20)
+        )
