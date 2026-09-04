@@ -599,3 +599,64 @@ if st.button("前年5日分を照合"):
 
         else:
             st.write("167Aが一致データにありません")
+
+        st.subheader("🧪 660社 一括計算テスト")
+
+        calc_df = matched_df.copy()
+
+        numeric_cols = [
+            "OP_current",
+            "FOP_current",
+            "OP_previous",
+            "FOP_previous"
+        ]
+
+        for col in numeric_cols:
+            calc_df[col] = pd.to_numeric(
+                calc_df[col],
+                errors="coerce"
+            )
+
+        calc_df["OPProgress"] = (
+            calc_df["OP_current"]
+            / calc_df["FOP_current"]
+            * 100
+        )
+
+        calc_df["PrevProgress"] = (
+            calc_df["OP_previous"]
+            / calc_df["FOP_previous"]
+            * 100
+        )
+
+        calc_df["ProgressDiff"] = (
+            calc_df["OPProgress"]
+            - calc_df["PrevProgress"]
+        )
+
+        calc_df["OPYoY"] = (
+            (
+                calc_df["OP_current"]
+                / calc_df["OP_previous"]
+                - 1
+            )
+            * 100
+        )
+
+        st.write(
+            "一括計算件数:",
+            len(calc_df)
+        )
+
+        st.dataframe(
+            calc_df[
+                [
+                    "Code4",
+                    "CurPerType",
+                    "OPProgress",
+                    "PrevProgress",
+                    "ProgressDiff",
+                    "OPYoY"
+                ]
+            ].head(30)
+        )
