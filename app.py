@@ -712,6 +712,16 @@ if st.button("前年5日分を照合"):
         ascending=False
     )
 
+    name_df = stock_master_df[
+        ["Code4", "CoName"]
+    ].drop_duplicates()
+
+    near_fast_df = near_fast_df.merge(
+        name_df,
+        on="Code4",
+        how="left"
+    )
+    
     st.write(
         "👀 基準直前候補件数:",
         len(near_fast_df)
@@ -721,6 +731,7 @@ if st.button("前年5日分を照合"):
         near_fast_df[
             [
                 "Code4",
+                "CoName",
                 "CurPerType",
                 "OPProgress",
                 "ThresholdGap",
@@ -765,3 +776,4 @@ if st.button("前年5日分を照合"):
             ]
         ]
     )
+
