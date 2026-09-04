@@ -757,6 +757,12 @@ if st.button("前年5日分を照合"):
         ascending=[False, False]
     )
 
+    revision_fast_df = revision_fast_df.merge(
+        name_df,
+        on="Code4",
+        how="left"
+    )
+    
     st.write(
         "🔥 上方修正候補件数:",
         len(revision_fast_df)
@@ -766,6 +772,7 @@ if st.button("前年5日分を照合"):
         revision_fast_df[
             [
                 "Code4",
+                "CoName",
                 "CurPerType",
                 "OPProgress",
                 "ThresholdGap",
