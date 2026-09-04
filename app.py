@@ -732,3 +732,36 @@ if st.button("前年5日分を照合"):
             ]
         ]
     )
+
+    st.subheader("🔥 高速版 上方修正候補")
+
+    revision_fast_df = calc_df[
+        (calc_df["ProgressThreshold"].notna())
+        & (calc_df["OPProgress"] >= calc_df["ProgressThreshold"])
+        & (calc_df["OPYoY"] > 0)
+    ].copy()
+
+    revision_fast_df = revision_fast_df.sort_values(
+        ["ProgressDiff", "OPYoY"],
+        ascending=[False, False]
+    )
+
+    st.write(
+        "🔥 上方修正候補件数:",
+        len(revision_fast_df)
+    )
+
+    st.dataframe(
+        revision_fast_df[
+            [
+                "Code4",
+                "CurPerType",
+                "OPProgress",
+                "ThresholdGap",
+                "PrevProgress",
+                "ProgressDiff",
+                "OPYoY",
+                "DiscDate_current"
+            ]
+        ]
+    )
