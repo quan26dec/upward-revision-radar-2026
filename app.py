@@ -547,11 +547,25 @@ if st.button("前年5日分を照合"):
 
             row = check_167a.iloc[0]
 
-            op_current = row["OP_current"]
-            fop_current = row["FOP_current"]
-
-            op_previous = row["OP_previous"]
-            fop_previous = row["FOP_previous"]
+            op_current = pd.to_numeric(
+                row["OP_current"],
+                errors="coerce"
+            )
+            
+            fop_current = pd.to_numeric(
+                row["FOP_current"],
+                errors="coerce"
+            )
+            
+            op_previous = pd.to_numeric(
+                row["OP_previous"],
+                errors="coerce"
+            )
+            
+            fop_previous = pd.to_numeric(
+                row["FOP_previous"],
+                errors="coerce"
+            )
 
             op_progress = (
                 op_current / fop_current * 100
