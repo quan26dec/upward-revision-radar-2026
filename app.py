@@ -691,3 +691,44 @@ if st.button("前年5日分を照合"):
             ]
         ].head(30)
     )
+
+    st.subheader("👀 高速版 基準直前候補")
+
+    near_fast_df = calc_df[
+        (calc_df["ThresholdGap"] >= -5)
+        & (calc_df["ThresholdGap"] < 0)
+        & (calc_df["ProgressDiff"] > 0)
+        & (calc_df["OPYoY"] > 0)
+    ].copy()
+
+    near_fast_df["NearScore"] = (
+        5 + near_fast_df["ThresholdGap"]
+        + near_fast_df["ProgressDiff"] / 10
+        + near_fast_df["OPYoY"].clip(upper=100) / 10
+    )
+
+    near_fast_df = near_fast_df.sort_values(
+        "NearScore",
+        ascending=False
+    )
+
+    st.write(
+        "👀 基準直前候補件数:",
+        len(near_fast_df)
+    )
+
+    st.dataframe(
+        near_fast_df[
+            [
+                "Code4",
+                "CurPerType",
+                "OPProgress",
+                "ThresholdGap",
+                "NearScore",
+                "PrevProgress",
+                "ProgressDiff",
+                "OPYoY",
+                "DiscDate_current"
+            ]
+        ]
+    )
