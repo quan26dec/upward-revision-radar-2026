@@ -536,3 +536,52 @@ if st.button("前年5日分を照合"):
                 ]
             ].head(20)
         )
+
+        st.subheader("🧪 167A 計算確認")
+
+        check_167a = matched_df[
+            matched_df["Code4"] == "167A"
+        ].copy()
+
+        if len(check_167a) > 0:
+
+            row = check_167a.iloc[0]
+
+            op_current = row["OP_current"]
+            fop_current = row["FOP_current"]
+
+            op_previous = row["OP_previous"]
+            fop_previous = row["FOP_previous"]
+
+            op_progress = (
+                op_current / fop_current * 100
+                if fop_current not in [0, None]
+                else None
+            )
+
+            prev_progress = (
+                op_previous / fop_previous * 100
+                if fop_previous not in [0, None]
+                else None
+            )
+
+            progress_diff = (
+                op_progress - prev_progress
+                if op_progress is not None
+                and prev_progress is not None
+                else None
+            )
+
+            op_yoy = (
+                (op_current / op_previous - 1) * 100
+                if op_previous not in [0, None]
+                else None
+            )
+
+            st.write("OPProgress:", round(op_progress, 1))
+            st.write("PrevProgress:", round(prev_progress, 1))
+            st.write("ProgressDiff:", round(progress_diff, 1))
+            st.write("OPYoY:", round(op_yoy, 1))
+
+        else:
+            st.write("167Aが一致データにありません")
