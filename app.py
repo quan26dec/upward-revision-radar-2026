@@ -446,3 +446,93 @@ if st.button("前年同期を照合"):
                 ]
             ].head(20)
         )
+st.subheader("🧪 前年5日分照合テスト")
+
+if st.button("前年5日分を照合"):
+
+    current_response = requests.get(
+        financial_url,
+        params={"date": "2026-08-07"},
+        headers=headers
+    )
+
+    previous_dates = [
+        "2025-08-06",
+        "2025-08-07",
+        "2025-08-08",
+        "2025-08-09",
+        "2025-08-10",
+    ]
+
+    previous_frames = []
+
+    for date in previous_dates:
+
+        response = requests.get(
+            financial_url,
+            params={"date": date},
+            headers=headers
+        )
+
+        st.write(
+            "前年取得:",
+            date,
+            response.status_code
+        )
+
+        if response.status_code == 200:
+            temp_df = pd.DataFrame(
+                response.json()["data"]
+            )
+
+            previous_frames.append(temp_df)
+
+        time.sleep(0.8)
+
+    if (
+        current_response.status_code == 200
+        and len(previous_frames) > 0
+    ):
+
+        current_df = pd.DataFrame(
+            current_response.json()["data"]
+        )
+
+        previous_df = pd.concat(
+            previous_frames,
+            ignore_index=True
+        )
+
+        current_df["Code4"] = (
+            current_df["Code"].astype(str).str[:4]
+        )
+
+        previous_df["Code4"] = (
+            previous_df["Code"].astype(str).str[:4]
+        )
+
+        previous_df = previous_df.drop_duplicates(
+            subset=["Code4", "CurPerType"],
+            keep="last"
+        )
+
+        matched_df = current_df.merge(
+            previous_df,
+            on=["Code4", "CurPerType"],
+            suffixes=("_current", "_previous")
+        )
+
+        st.write("今年取得件数:", len(current_df))
+        st.write("前年5日分取得件数:", len(previous_df))
+        st.write("前年同期一致件数:", len(matched_df))
+
+        st.dataframe(
+            matched_df[
+                [
+                    "Code4",
+                    "CurPerType",
+                    "DiscDate_current",
+                    "DiscDate_previous"
+                ]
+            ].head(20)
+        )
