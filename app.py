@@ -357,3 +357,31 @@ if st.button("🚀 200銘柄をスクリーニング"):
     else:
         st.write("基準直前の候補はありません")
 
+st.subheader("🧪 決算日指定テスト")
+
+if st.button("日付指定テスト"):
+
+    test_response = requests.get(
+        financial_url,
+        params={"date": "2026-08-07"},
+        headers=headers
+    )
+
+    st.write("ステータス:", test_response.status_code)
+
+    if test_response.status_code == 200:
+        test_json = test_response.json()
+
+        st.write("JSONキー:", test_json.keys())
+
+        if "data" in test_json:
+            st.write("取得件数:", len(test_json["data"]))
+            st.dataframe(
+                pd.DataFrame(test_json["data"]).head(10)
+            )
+
+        if "pagination_key" in test_json:
+            st.write(
+                "pagination_key:",
+                test_json["pagination_key"]
+            )
