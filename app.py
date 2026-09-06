@@ -956,6 +956,56 @@ if st.button("前年5日分を照合"):
         st.dataframe(
             unresolved_numeric_check_df
         )
+
+        fncop_results = []
+
+        for history_df in revision_history_frames:
+
+            code = history_df["Code4"].iloc[0]
+
+            if code not in final_unresolved_codes:
+                continue
+
+            history_df = history_df.copy()
+
+            history_df["FNCOP_num"] = pd.to_numeric(
+                history_df["FNCOP"],
+                errors="coerce"
+            )
+
+            revision_rows_fncop = history_df[
+                (history_df["DiscDate"] == "2026-08-07")
+                & (history_df["DocType"] == "EarnForecastRevision")
+                & (history_df["FNCOP_num"].notna())
+            ]
+
+            prior_rows_fncop = history_df[
+                (history_df["DiscDate"] < "2026-08-07")
+                & (history_df["FNCOP_num"].notna())
+            ].sort_values("DiscDate")
+
+            if len(revision_rows_fncop) > 0 and len(prior_rows_fncop) > 0:
+
+                fncop_results.append(
+                    {
+                        "Code4": code,
+                        "旧FNCOP": prior_rows_fncop.iloc[-1]["FNCOP_num"],
+                        "新FNCOP": revision_rows_fncop.iloc[-1]["FNCOP_num"]
+                    }
+                )
+
+        fncop_result_df = pd.DataFrame(
+            fncop_results
+        )
+
+        st.write(
+            "🔎 FNCOP新旧比較件数:",
+            len(fncop_result_df)
+        )
+
+        st.dataframe(
+            fncop_result_df
+        )
         
         st.write(
             "⚪ FOP未判定件数:",
