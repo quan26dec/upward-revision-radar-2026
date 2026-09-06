@@ -660,6 +660,11 @@ if st.button("前年5日分を照合"):
             ]
         ].head(30)
     )
+        st.subheader("🧪 DocType確認")
+
+    st.write(
+        calc_df["DocType_current"].value_counts()
+    )
     st.subheader("🧪 基準値・ThresholdGap 計算")
 
     threshold_map = {
