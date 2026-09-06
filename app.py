@@ -503,6 +503,49 @@ if st.button("167Aの履歴を確認"):
             ]
         )
 
+        test_167_df["FOP_num"] = pd.to_numeric(
+            test_167_df["FOP"],
+            errors="coerce"
+        )
+
+        revision_row = test_167_df[
+            (test_167_df["DiscDate"] == "2026-08-07")
+            & (test_167_df["DocType"] == "EarnForecastRevision")
+        ]
+
+        prior_fop_df = test_167_df[
+            (test_167_df["DiscDate"] < "2026-08-07")
+            & (test_167_df["FOP_num"].notna())
+        ].sort_values("DiscDate")
+
+        if len(revision_row) > 0 and len(prior_fop_df) > 0:
+
+            new_fop = pd.to_numeric(
+                revision_row.iloc[-1]["FOP"],
+                errors="coerce"
+            )
+
+            old_fop = prior_fop_df.iloc[-1]["FOP_num"]
+
+            revision_rate = (
+                (new_fop / old_fop - 1) * 100
+            )
+
+            if new_fop > old_fop:
+                revision_direction = "🔺 上方修正"
+            elif new_fop < old_fop:
+                revision_direction = "🔻 下方修正"
+            else:
+                revision_direction = "➡️ 据え置き"
+
+            st.write(
+                "167A 自動判定:",
+                revision_direction,
+                f"{old_fop / 100000000:.1f}億円 → "
+                f"{new_fop / 100000000:.1f}億円",
+                f"({revision_rate:+.1f}%)"
+            )
+
 st.subheader("🧪 前年5日分照合テスト")
 
 if st.button("前年5日分を照合"):
