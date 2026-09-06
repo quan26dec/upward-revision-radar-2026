@@ -607,6 +607,15 @@ if st.button("前年5日分を照合"):
             current_df["Code"].astype(str).str[:4]
         )
 
+        revision_today_fast_df = current_df[
+            current_df["DocType"] == "EarnForecastRevision"
+        ].copy()
+
+        st.write(
+            "🎯 前年5日分処理内の業績予想修正件数:",
+            len(revision_today_fast_df)
+        )
+        
         previous_df["Code4"] = (
             previous_df["Code"].astype(str).str[:4]
         )
