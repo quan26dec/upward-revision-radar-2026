@@ -785,10 +785,20 @@ if st.button("前年5日分を照合"):
         ascending=False
     )
 
+    dual_fast_df = normal_fast_df[
+        (normal_fast_df["ThresholdGap"] >= 10)
+        & (normal_fast_df["ProgressDiff"] >= 10)
+    ].copy()
+
     recovery_fast_df = revision_fast_df[
         revision_fast_df["GrowthType"] == "急回復型"
     ].copy()
-        
+
+    st.write(
+        "📡 2軸とも10pt以上:",
+        len(dual_fast_df)
+    )    
+    
     st.write(
         "PrevProgress 5%以下:",
         len(revision_fast_df[revision_fast_df["PrevProgress"] <= 5])
