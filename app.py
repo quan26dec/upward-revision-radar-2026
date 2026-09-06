@@ -1505,6 +1505,11 @@ if st.button("前年5日分を照合"):
         .map(revision_status_map)
         .fillna("📡 今回修正なし")
     )
+
+    st.write(
+        "📊 Radar83社 今回修正ステータス:",
+        final_radar_df["今回修正ステータス"].value_counts()
+    )
     
     threshold_fast_df = normal_fast_df.sort_values(
         "ThresholdGap",
