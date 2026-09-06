@@ -1491,6 +1491,20 @@ if st.button("前年5日分を照合"):
         "RadarScore",
         ascending=False
     )
+
+    revision_status_map = dict(
+        zip(
+            integrated_result_df["Code4"].astype(str),
+            integrated_result_df["判定"]
+        )
+    )
+
+    final_radar_df["今回修正ステータス"] = (
+        final_radar_df["Code4"]
+        .astype(str)
+        .map(revision_status_map)
+        .fillna("📡 今回修正なし")
+    )
     
     threshold_fast_df = normal_fast_df.sort_values(
         "ThresholdGap",
@@ -1590,6 +1604,7 @@ if st.button("前年5日分を照合"):
                 "CoName",
                 "GrowthType",
                 "SignalType",
+                "今回修正ステータス",
                 "CurPerType",
                 "OP_previous",
                 "OP_current",
