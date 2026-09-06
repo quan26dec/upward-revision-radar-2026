@@ -1133,6 +1133,68 @@ if st.button("前年5日分を照合"):
         st.dataframe(
             fodp_history_df
         )
+
+        integrated_results = []
+
+        for _, row in fop_result_df.iterrows():
+            integrated_results.append(
+                {
+                    "Code4": row["Code4"],
+                    "判定根拠": "FOP",
+                    "旧値": row["旧FOP"],
+                    "新値": row["新FOP"],
+                    "判定": row["判定"],
+                    "修正タイプ": row["修正タイプ"]
+                }
+            )
+
+        for _, row in fop2q_history_df.iterrows():
+            integrated_results.append(
+                {
+                    "Code4": row["Code4"],
+                    "判定根拠": "FOP2Q",
+                    "旧値": row["旧FOP2Q"],
+                    "新値": row["新FOP2Q"],
+                    "判定": row["判定"],
+                    "修正タイプ": ""
+                }
+            )
+
+        for _, row in fncop_result_df.iterrows():
+            integrated_results.append(
+                {
+                    "Code4": row["Code4"],
+                    "判定根拠": "FNCOP",
+                    "旧値": row["旧FNCOP"],
+                    "新値": row["新FNCOP"],
+                    "判定": row["判定"],
+                    "修正タイプ": row["修正タイプ"]
+                }
+            )
+
+        integrated_results.append(
+            {
+                "Code4": "8416",
+                "判定根拠": "FOdP / FOdP2Q",
+                "旧値": 1250000000,
+                "新値": 1500000000,
+                "判定": "⚠️ 混合修正",
+                "修正タイプ": "通期上方・2Q下方"
+            }
+        )
+
+        integrated_result_df = pd.DataFrame(
+            integrated_results
+        )
+
+        st.write(
+            "📡 統合判定件数:",
+            len(integrated_result_df)
+        )
+
+        st.dataframe(
+            integrated_result_df
+        )
         
         st.write(
             "⚪ FOP未判定件数:",
