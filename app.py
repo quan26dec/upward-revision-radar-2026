@@ -780,6 +780,14 @@ if st.button("前年5日分を照合"):
         revision_fast_df["GrowthType"] == "通常型"
     ].copy()
 
+    normal_fast_df["SignalType"] = "通常候補"
+
+    normal_fast_df.loc[
+        (normal_fast_df["ThresholdGap"] >= 10)
+        & (normal_fast_df["ProgressDiff"] >= 10),
+        "SignalType"
+    ] = "📡 強シグナル"
+    
     threshold_fast_df = normal_fast_df.sort_values(
         "ThresholdGap",
         ascending=False
@@ -880,6 +888,7 @@ if st.button("前年5日分を照合"):
                 "Code4",
                 "CoName",
                 "GrowthType",
+                "SignalType",
                 "CurPerType",
                 "OP_previous",
                 "OP_current",
@@ -916,7 +925,7 @@ if st.button("前年5日分を照合"):
 
     st.dataframe(
         recovery_fast_df[
-            [
+                            [
                 "Code4",
                 "CoName",
                 "GrowthType",
