@@ -436,6 +436,25 @@ if st.button("前年同期を照合"):
             "DocType種類:",
             current_df["DocType"].value_counts()
         )
+
+        revision_today_df = current_df[
+            current_df["DocType"] == "EarnForecastRevision"
+        ].copy()
+
+        st.write(
+            "🎯 今回の業績予想修正件数:",
+            len(revision_today_df)
+        )
+
+        st.dataframe(
+            revision_today_df[
+                [
+                    "Code4",
+                    "DiscDate",
+                    "DocType"
+                ]
+            ]
+        )
         
         st.write("今年取得件数:", len(current_df))
         st.write("前年取得件数:", len(previous_df))
