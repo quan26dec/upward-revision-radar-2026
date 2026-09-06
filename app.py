@@ -862,6 +862,18 @@ if st.button("前年5日分を照合"):
             "⚪ 最終未判定件数:",
             len(final_unresolved_codes)
         )
+
+        unresolved_detail_df = revision_today_fast_df[
+            revision_today_fast_df["Code4"].isin(final_unresolved_codes)
+        ].copy()
+
+        st.write(
+            "🔎 最終未判定9社の修正内容:"
+        )
+
+        st.dataframe(
+            unresolved_detail_df
+        )
         
         st.write(
             "⚪ FOP未判定件数:",
