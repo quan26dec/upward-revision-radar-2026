@@ -776,6 +776,14 @@ if st.button("前年5日分を照合"):
         len(revision_fast_df)
     )
 
+    normal_fast_df = revision_fast_df[
+        revision_fast_df["GrowthType"] == "通常型"
+    ].copy()
+
+    recovery_fast_df = revision_fast_df[
+        revision_fast_df["GrowthType"] == "急回復型"
+    ].copy()
+    
     st.write(
         "PrevProgress 5%以下:",
         len(revision_fast_df[revision_fast_df["PrevProgress"] <= 5])
@@ -786,8 +794,12 @@ if st.button("前年5日分を照合"):
         len(revision_fast_df[revision_fast_df["PrevProgress"] <= 10])
     )
     
+    st.subheader("🔥 通常型")
+
+    st.write("通常型件数:", len(normal_fast_df))
+
     st.dataframe(
-        revision_fast_df[
+        normal_fast_df[
             [
                 "Code4",
                 "CoName",
@@ -796,6 +808,29 @@ if st.button("前年5日分を照合"):
                 "OP_previous",
                 "OP_current",
                 "OPProgress",               
+                "ThresholdGap",
+                "PrevProgress",
+                "ProgressDiff",
+                "OPYoY",
+                "DiscDate_current"
+            ]
+        ]
+    )
+
+    st.subheader("🚀 急回復型")
+
+    st.write("急回復型件数:", len(recovery_fast_df))
+
+    st.dataframe(
+        recovery_fast_df[
+            [
+                "Code4",
+                "CoName",
+                "GrowthType",
+                "CurPerType",
+                "OP_previous",
+                "OP_current",
+                "OPProgress",
                 "ThresholdGap",
                 "PrevProgress",
                 "ProgressDiff",
