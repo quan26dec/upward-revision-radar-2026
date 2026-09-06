@@ -874,6 +874,23 @@ if st.button("前年5日分を照合"):
         st.dataframe(
             unresolved_detail_df
         )
+
+        non_empty_columns = []
+
+        for col in unresolved_detail_df.columns:
+
+            col_num = pd.to_numeric(
+                unresolved_detail_df[col],
+                errors="coerce"
+            )
+
+            if col_num.notna().any():
+                non_empty_columns.append(col)
+
+        st.write(
+            "🔎 最終未判定9社で数値が入っている列:",
+            non_empty_columns
+        )
         
         st.write(
             "⚪ FOP未判定件数:",
