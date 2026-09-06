@@ -799,6 +799,11 @@ if st.button("前年5日分を照合"):
         "ThresholdGap",
         ascending=False
     )
+
+    radar_fast_df = dual_fast_df.sort_values(
+        "RadarScore",
+        ascending=False
+    )
     
     recovery_fast_df = revision_fast_df[
         revision_fast_df["GrowthType"] == "急回復型"
@@ -813,6 +818,24 @@ if st.button("前年5日分を照合"):
 
     st.dataframe(
         dual_fast_df[
+            [
+                "Code4",
+                "CoName",
+                "CurPerType",
+                "OPProgress",
+                "ThresholdGap",
+                "RadarScore",
+                "PrevProgress",
+                "ProgressDiff",
+                "OPYoY"
+            ]
+        ].head(10)
+    )
+
+    st.subheader("🎯 RadarScore順 TOP10")
+
+    st.dataframe(
+        radar_fast_df[
             [
                 "Code4",
                 "CoName",
