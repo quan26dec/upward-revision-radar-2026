@@ -659,13 +659,13 @@ if st.button("前年5日分を照合"):
                 "OPYoY"
             ]
         ].head(30)
-    )
-st.subheader("🧪 DocType確認")
-
-st.write(
-    calc_df["DocType_current"].value_counts()
-)
-    st.subheader("🧪 基準値・ThresholdGap 計算")
+            )
+        st.subheader("🧪 DocType確認")
+        
+        st.write(
+            calc_df["DocType_current"].value_counts()
+        )
+        st.subheader("🧪 基準値・ThresholdGap 計算")
 
     threshold_map = {
         "1Q": 35,
