@@ -655,6 +655,62 @@ if st.button("前年5日分を照合"):
             "🎯 修正25社の履歴取得成功:",
             len(revision_history_frames)
         )
+
+        fop_results = []
+
+        for history_df in revision_history_frames:
+
+            code = history_df["Code4"].iloc[0]
+
+            history_df = history_df.copy()
+            history_df["FOP_num"] = pd.to_numeric(
+                history_df["FOP"],
+                errors="coerce"
+            )
+
+            revision_rows = history_df[
+                (history_df["DiscDate"] == "2026-08-07")
+                & (history_df["DocType"] == "EarnForecastRevision")
+                & (history_df["FOP_num"].notna())
+            ]
+
+            prior_rows = history_df[
+                (history_df["DiscDate"] < "2026-08-07")
+                & (history_df["FOP_num"].notna())
+            ].sort_values("DiscDate")
+
+            if len(revision_rows) > 0 and len(prior_rows) > 0:
+
+                new_fop = revision_rows.iloc[-1]["FOP_num"]
+                old_fop = prior_rows.iloc[-1]["FOP_num"]
+
+                if new_fop > old_fop:
+                    direction = "🔺 上方修正"
+                elif new_fop < old_fop:
+                    direction = "🔻 下方修正"
+                else:
+                    direction = "➡️ 据え置き"
+
+                rate = (new_fop / old_fop - 1) * 100
+
+                fop_results.append(
+                    {
+                        "Code4": code,
+                        "旧FOP": old_fop,
+                        "新FOP": new_fop,
+                        "修正率": rate,
+                        "判定": direction
+                    }
+                )
+
+        fop_result_df = pd.DataFrame(fop_results)
+
+        st.write(
+            "📡 FOPで判定できた件数:",
+            len(fop_result_df)
+        )
+
+        st.dataframe(fop_result_df)        
         
         previous_df["Code4"] = (
             previous_df["Code"].astype(str).str[:4]
