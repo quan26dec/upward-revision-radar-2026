@@ -473,7 +473,7 @@ if st.button("前年同期を照合"):
 
         test_past_revision_df = test_past_revision_df[
             (test_past_revision_df["DocType"] == "EarnForecastRevision")
-            & (test_past_revision_df["DiscDate"] < current_date)
+            & (test_past_revision_df["DiscDate"] < "2026-08-07")
         ].copy()
 
         st.write(
@@ -1624,7 +1624,7 @@ if st.button("前年5日分を照合"):
     st.write("通常型件数:", len(normal_fast_df))
 
     st.subheader("🎯 最終Radarランキング")
-    
+
     st.dataframe(
         final_radar_df[
             [
@@ -1636,7 +1636,7 @@ if st.button("前年5日分を照合"):
                 "CurPerType",
                 "OP_previous",
                 "OP_current",
-                "OPProgress",               
+                "OPProgress",
                 "ThresholdGap",
                 "RadarScore",
                 "PrevProgress",
@@ -1646,44 +1646,3 @@ if st.button("前年5日分を照合"):
             ]
         ]
     )
-
-    st.subheader("📊 比較用：ThresholdGap順 TOP10")
-
-    st.dataframe(
-        threshold_fast_df[
-            [
-                "Code4",
-                "CoName",
-                "CurPerType",
-                "OPProgress",
-                "ThresholdGap",
-                "PrevProgress",
-                "ProgressDiff",
-                "OPYoY"
-            ]
-        ].head(10)
-    )
-    
-    st.subheader("🚀 急回復型")
-
-    st.write("急回復型件数:", len(recovery_fast_df))
-
-    st.dataframe(
-        recovery_fast_df[
-                            [
-                "Code4",
-                "CoName",
-                "GrowthType",
-                "CurPerType",
-                "OP_previous",
-                "OP_current",
-                "OPProgress",
-                "ThresholdGap",
-                "PrevProgress",
-                "ProgressDiff",
-                "OPYoY",
-                "DiscDate_current"
-            ]
-        ]
-    )
-
