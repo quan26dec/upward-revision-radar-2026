@@ -790,6 +790,11 @@ if st.button("前年5日分を照合"):
         & (normal_fast_df["ProgressDiff"] >= 10)
     ].copy()
 
+    dual_fast_df = dual_fast_df.sort_values(
+        "ThresholdGap",
+        ascending=False
+    )
+    
     recovery_fast_df = revision_fast_df[
         revision_fast_df["GrowthType"] == "急回復型"
     ].copy()
@@ -798,6 +803,23 @@ if st.button("前年5日分を照合"):
         "📡 2軸とも10pt以上:",
         len(dual_fast_df)
     )    
+
+    st.subheader("📡 2軸強シグナル TOP10")
+
+    st.dataframe(
+        dual_fast_df[
+            [
+                "Code4",
+                "CoName",
+                "CurPerType",
+                "OPProgress",
+                "ThresholdGap",
+                "PrevProgress",
+                "ProgressDiff",
+                "OPYoY"
+            ]
+        ].head(10)
+    )
     
     st.write(
         "PrevProgress 5%以下:",
