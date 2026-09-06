@@ -780,10 +780,15 @@ if st.button("前年5日分を照合"):
         revision_fast_df["GrowthType"] == "通常型"
     ].copy()
 
+    threshold_fast_df = normal_fast_df.sort_values(
+        "ThresholdGap",
+        ascending=False
+    )
+
     recovery_fast_df = revision_fast_df[
         revision_fast_df["GrowthType"] == "急回復型"
     ].copy()
-    
+        
     st.write(
         "PrevProgress 5%以下:",
         len(revision_fast_df[revision_fast_df["PrevProgress"] <= 5])
@@ -817,6 +822,23 @@ if st.button("前年5日分を照合"):
         ]
     )
 
+    st.subheader("📊 比較用：ThresholdGap順 TOP10")
+
+    st.dataframe(
+        threshold_fast_df[
+            [
+                "Code4",
+                "CoName",
+                "CurPerType",
+                "OPProgress",
+                "ThresholdGap",
+                "PrevProgress",
+                "ProgressDiff",
+                "OPYoY"
+            ]
+        ].head(10)
+    )
+    
     st.subheader("🚀 急回復型")
 
     st.write("急回復型件数:", len(recovery_fast_df))
