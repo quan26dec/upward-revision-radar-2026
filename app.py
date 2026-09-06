@@ -1623,11 +1623,6 @@ if st.button("前年5日分を照合"):
 
     st.write("通常型件数:", len(normal_fast_df))
 
-    st.write(
-        "🧪 9635 過去の業績予想修正件数:",
-        len(test_past_revision_df)
-    )
-    
     st.subheader("🎯 最終Radarランキング")
 
     st.dataframe(
