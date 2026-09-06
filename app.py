@@ -457,6 +457,29 @@ if st.button("前年同期を照合"):
                 ]
             ]
         )
+
+        # 既修正判定テスト用：Radar候補1社
+        test_past_revision_code = "9635"
+
+        test_past_revision_response = requests.get(
+            financial_url,
+            params={"code": test_past_revision_code},
+            headers=headers
+        )
+
+        test_past_revision_df = pd.DataFrame(
+            test_past_revision_response.json()["data"]
+        )
+
+        test_past_revision_df = test_past_revision_df[
+            (test_past_revision_df["DocType"] == "EarnForecastRevision")
+            & (test_past_revision_df["DiscDate"] < current_date)
+        ].copy()
+
+        st.write(
+            "🧪 9635 過去の業績予想修正件数:",
+            len(test_past_revision_df)
+        )
         
         st.write("今年取得件数:", len(current_df))
         st.write("前年取得件数:", len(previous_df))
