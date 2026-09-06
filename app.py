@@ -472,6 +472,37 @@ if st.button("前年同期を照合"):
                 ]
             ].head(20)
         )
+
+st.subheader("🧪 167A 過去FOP確認")
+
+if st.button("167Aの履歴を確認"):
+
+    test_167_response = requests.get(
+        financial_url,
+        params={"code": "167A"},
+        headers=headers
+    )
+
+    st.write("167A API:", test_167_response.status_code)
+
+    if test_167_response.status_code == 200:
+
+        test_167_df = pd.DataFrame(
+            test_167_response.json()["data"]
+        )
+
+        st.dataframe(
+            test_167_df[
+                [
+                    "DiscDate",
+                    "DocType",
+                    "CurPerType",
+                    "FOP",
+                    "FOP2Q"
+                ]
+            ]
+        )
+
 st.subheader("🧪 前年5日分照合テスト")
 
 if st.button("前年5日分を照合"):
