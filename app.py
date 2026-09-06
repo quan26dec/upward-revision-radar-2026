@@ -770,6 +770,54 @@ if st.button("前年5日分を照合"):
                 ]
             ]
         )
+
+        fop2q_history_results = []
+
+        for history_df in revision_history_frames:
+
+            code = history_df["Code4"].iloc[0]
+
+            if code not in fop2q_check_df["Code4"].astype(str).tolist():
+                continue
+
+            history_df = history_df.copy()
+
+            history_df["FOP2Q_num"] = pd.to_numeric(
+                history_df["FOP2Q"],
+                errors="coerce"
+            )
+
+            revision_rows_2q = history_df[
+                (history_df["DiscDate"] == "2026-08-07")
+                & (history_df["DocType"] == "EarnForecastRevision")
+                & (history_df["FOP2Q_num"].notna())
+            ]
+
+            prior_rows_2q = history_df[
+                (history_df["DiscDate"] < "2026-08-07")
+                & (history_df["FOP2Q_num"].notna())
+            ].sort_values("DiscDate")
+
+            if len(revision_rows_2q) > 0 and len(prior_rows_2q) > 0:
+
+                fop2q_history_results.append(
+                    {
+                        "Code4": code,
+                        "旧FOP2Q": prior_rows_2q.iloc[-1]["FOP2Q_num"],
+                        "新FOP2Q": revision_rows_2q.iloc[-1]["FOP2Q_num"]
+                    }
+                )
+
+        fop2q_history_df = pd.DataFrame(
+            fop2q_history_results
+        )
+
+        st.write(
+            "🔎 FOP2Q新旧比較:",
+            len(fop2q_history_df)
+        )
+
+        st.dataframe(fop2q_history_df)
         
         st.write(
             "⚪ FOP未判定件数:",
