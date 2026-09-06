@@ -792,7 +792,12 @@ if st.button("前年5日分を照合"):
         normal_fast_df["ThresholdGap"]
         + normal_fast_df["ProgressDiff"]
     )
-        
+
+    final_radar_df = normal_fast_df.sort_values(
+        "RadarScore",
+        ascending=False
+    )
+    
     threshold_fast_df = normal_fast_df.sort_values(
         "ThresholdGap",
         ascending=False
@@ -882,8 +887,10 @@ if st.button("前年5日分を照合"):
 
     st.write("通常型件数:", len(normal_fast_df))
 
+    st.subheader("🎯 最終Radarランキング")
+    
     st.dataframe(
-        normal_fast_df[
+        final_radar_df[
             [
                 "Code4",
                 "CoName",
