@@ -451,7 +451,9 @@ if st.button("前年同期を照合"):
                 [
                     "Code4",
                     "DiscDate",
-                    "DocType"
+                    "DocType",
+                    "FOP",
+                    "FOP2Q"
                 ]
             ]
         )
