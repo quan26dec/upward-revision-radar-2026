@@ -615,6 +615,19 @@ if st.button("前年5日分を照合"):
             "🎯 前年5日分処理内の業績予想修正件数:",
             len(revision_today_fast_df)
         )
+
+        revision_today_codes = (
+            revision_today_fast_df["Code4"]
+            .dropna()
+            .astype(str)
+            .drop_duplicates()
+            .tolist()
+        )
+
+        st.write(
+            "🎯 今回修正コード一覧:",
+            revision_today_codes
+        )
         
         previous_df["Code4"] = (
             previous_df["Code"].astype(str).str[:4]
