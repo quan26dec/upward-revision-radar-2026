@@ -891,6 +891,36 @@ if st.button("前年5日分を照合"):
             "🔎 最終未判定9社で数値が入っている列:",
             non_empty_columns
         )
+
+        unresolved_detail_df["FOdP_num"] = pd.to_numeric(
+            unresolved_detail_df["FOdP"],
+            errors="coerce"
+        )
+
+        unresolved_detail_df["FOdP2Q_num"] = pd.to_numeric(
+            unresolved_detail_df["FOdP2Q"],
+            errors="coerce"
+        )
+
+        fodp_check_df = unresolved_detail_df[
+            (unresolved_detail_df["FOdP_num"].notna())
+            | (unresolved_detail_df["FOdP2Q_num"].notna())
+        ].copy()
+
+        st.write(
+            "🔎 FOdP / FOdP2Qあり件数:",
+            len(fodp_check_df)
+        )
+
+        st.dataframe(
+            fodp_check_df[
+                [
+                    "Code4",
+                    "FOdP_num",
+                    "FOdP2Q_num"
+                ]
+            ]
+        )
         
         st.write(
             "⚪ FOP未判定件数:",
