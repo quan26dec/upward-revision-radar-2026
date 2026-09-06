@@ -787,7 +787,12 @@ if st.button("前年5日分を照合"):
         & (normal_fast_df["ProgressDiff"] >= 10),
         "SignalType"
     ] = "📡 強シグナル"
-    
+
+    normal_fast_df["RadarScore"] = (
+        normal_fast_df["ThresholdGap"]
+        + normal_fast_df["ProgressDiff"]
+    )
+        
     threshold_fast_df = normal_fast_df.sort_values(
         "ThresholdGap",
         ascending=False
@@ -798,11 +803,6 @@ if st.button("前年5日分を照合"):
         & (normal_fast_df["ProgressDiff"] >= 10)
     ].copy()
 
-    dual_fast_df["RadarScore"] = (
-        dual_fast_df["ThresholdGap"]
-        + dual_fast_df["ProgressDiff"]
-    )
-    
     dual_fast_df = dual_fast_df.sort_values(
         "ThresholdGap",
         ascending=False
@@ -894,6 +894,7 @@ if st.button("前年5日分を照合"):
                 "OP_current",
                 "OPProgress",               
                 "ThresholdGap",
+                "RadarScore",
                 "PrevProgress",
                 "ProgressDiff",
                 "OPYoY",
