@@ -752,12 +752,13 @@ if st.button("前年5日分を照合"):
         & (calc_df["OPYoY"] > 0)
     ].copy()
 
-    revision_fast_df["GrowthType"] = (
-        revision_fast_df["OP_previous"]
-        .apply(
-            lambda x: "通常型" if x > 0 else "急回復型"
-        )
-    )
+    revision_fast_df["GrowthType"] = "通常型"
+
+    revision_fast_df.loc[
+        (revision_fast_df["OP_previous"] <= 0)
+        | (revision_fast_df["PrevProgress"] <= 5),
+        "GrowthType"
+    ] = "急回復型"
     
     revision_fast_df = revision_fast_df.sort_values(
         ["ProgressDiff", "OPYoY"],
