@@ -843,6 +843,25 @@ if st.button("前年5日分を照合"):
         )
 
         st.dataframe(fop2q_history_df)
+
+        fop2q_judged_codes = set(
+            fop2q_history_df["Code4"].astype(str)
+        )
+
+        final_unresolved_codes = [
+            code for code in unresolved_codes
+            if code not in fop2q_judged_codes
+        ]
+
+        st.write(
+            "⚪ 最終未判定コード:",
+            final_unresolved_codes
+        )
+
+        st.write(
+            "⚪ 最終未判定件数:",
+            len(final_unresolved_codes)
+        )
         
         st.write(
             "⚪ FOP未判定件数:",
