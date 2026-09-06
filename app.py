@@ -921,6 +921,41 @@ if st.button("前年5日分を照合"):
                 ]
             ]
         )
+
+        check_cols = [
+            "FOdP",
+            "FOdP2Q",
+            "FNP",
+            "FNP2Q",
+            "FEPS",
+            "FEPS2Q",
+            "FNCSales",
+            "FNCOP",
+            "FNCOdP",
+            "FNCNP",
+            "FNCSales2Q",
+            "FNCOP2Q",
+            "FNCOdP2Q",
+            "FNCNP2Q"
+        ]
+
+        unresolved_numeric_check_df = unresolved_detail_df[
+            ["Code4"] + check_cols
+        ].copy()
+
+        for col in check_cols:
+            unresolved_numeric_check_df[col] = pd.to_numeric(
+                unresolved_numeric_check_df[col],
+                errors="coerce"
+            )
+
+        st.write(
+            "🔎 最終未判定9社の予想項目一覧:"
+        )
+
+        st.dataframe(
+            unresolved_numeric_check_df
+        )
         
         st.write(
             "⚪ FOP未判定件数:",
