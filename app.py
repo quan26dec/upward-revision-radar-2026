@@ -814,6 +814,11 @@ if st.button("前年5日分を照合"):
         len(dual_fast_df)
     )    
 
+    st.write(
+        "📊 2軸強シグナル 四半期別件数:",
+        dual_fast_df["CurPerType"].value_counts()
+    )
+    
     st.subheader("📡 2軸強シグナル TOP10")
 
     st.dataframe(
