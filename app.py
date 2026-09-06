@@ -732,6 +732,25 @@ if st.button("前年5日分を照合"):
         )
 
         st.dataframe(fop_result_df)        
+
+        judged_codes = set(
+            fop_result_df["Code4"].astype(str)
+        )
+
+        unresolved_codes = [
+            code for code in revision_today_codes
+            if code not in judged_codes
+        ]
+
+        st.write(
+            "⚪ FOP未判定コード:",
+            unresolved_codes
+        )
+
+        st.write(
+            "⚪ FOP未判定件数:",
+            len(unresolved_codes)
+        )
         
         previous_df["Code4"] = (
             previous_df["Code"].astype(str).str[:4]
