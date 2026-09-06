@@ -1041,6 +1041,25 @@ if st.button("前年5日分を照合"):
         st.dataframe(
             fncop_result_df
         )
+
+        fncop_judged_codes = set(
+            fncop_result_df["Code4"].astype(str)
+        )
+
+        final_unresolved_after_fncop = [
+            code for code in final_unresolved_codes
+            if code not in fncop_judged_codes
+        ]
+
+        st.write(
+            "⚪ FNCOP後の最終未判定コード:",
+            final_unresolved_after_fncop
+        )
+
+        st.write(
+            "⚪ FNCOP後の最終未判定件数:",
+            len(final_unresolved_after_fncop)
+        )
         
         st.write(
             "⚪ FOP未判定件数:",
