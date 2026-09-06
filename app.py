@@ -628,6 +628,33 @@ if st.button("前年5日分を照合"):
             "🎯 今回修正コード一覧:",
             revision_today_codes
         )
+
+        revision_history_frames = []
+
+        for code in revision_today_codes:
+
+            history_response = requests.get(
+                financial_url,
+                params={"code": code},
+                headers=headers
+            )
+
+            if history_response.status_code == 200:
+
+                history_df = pd.DataFrame(
+                    history_response.json()["data"]
+                )
+
+                if len(history_df) > 0:
+                    history_df["Code4"] = code
+                    revision_history_frames.append(history_df)
+
+            time.sleep(0.3)
+
+        st.write(
+            "🎯 修正25社の履歴取得成功:",
+            len(revision_history_frames)
+        )
         
         previous_df["Code4"] = (
             previous_df["Code"].astype(str).str[:4]
