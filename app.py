@@ -1060,6 +1060,79 @@ if st.button("前年5日分を照合"):
             "⚪ FNCOP後の最終未判定件数:",
             len(final_unresolved_after_fncop)
         )
+
+        fodp_history_results = []
+
+        for history_df in revision_history_frames:
+
+            code = history_df["Code4"].iloc[0]
+
+            if code not in final_unresolved_after_fncop:
+                continue
+
+            history_df = history_df.copy()
+
+            history_df["FOdP_num"] = pd.to_numeric(
+                history_df["FOdP"],
+                errors="coerce"
+            )
+
+            history_df["FOdP2Q_num"] = pd.to_numeric(
+                history_df["FOdP2Q"],
+                errors="coerce"
+            )
+
+            revision_rows_fodp = history_df[
+                (history_df["DiscDate"] == "2026-08-07")
+                & (history_df["DocType"] == "EarnForecastRevision")
+            ]
+
+            prior_rows_fodp = history_df[
+                history_df["DiscDate"] < "2026-08-07"
+            ].sort_values("DiscDate")
+
+            if len(revision_rows_fodp) > 0:
+
+                new_fodp = revision_rows_fodp.iloc[-1]["FOdP_num"]
+                new_fodp2q = revision_rows_fodp.iloc[-1]["FOdP2Q_num"]
+
+                old_fodp_rows = prior_rows_fodp[
+                    prior_rows_fodp["FOdP_num"].notna()
+                ]
+
+                old_fodp2q_rows = prior_rows_fodp[
+                    prior_rows_fodp["FOdP2Q_num"].notna()
+                ]
+
+                fodp_history_results.append(
+                    {
+                        "Code4": code,
+                        "旧FOdP": (
+                            old_fodp_rows.iloc[-1]["FOdP_num"]
+                            if len(old_fodp_rows) > 0
+                            else None
+                        ),
+                        "新FOdP": new_fodp,
+                        "旧FOdP2Q": (
+                            old_fodp2q_rows.iloc[-1]["FOdP2Q_num"]
+                            if len(old_fodp2q_rows) > 0
+                            else None
+                        ),
+                        "新FOdP2Q": new_fodp2q
+                    }
+                )
+
+        fodp_history_df = pd.DataFrame(
+            fodp_history_results
+        )
+
+        st.write(
+            "🔎 FOdP系新旧比較:"
+        )
+
+        st.dataframe(
+            fodp_history_df
+        )
         
         st.write(
             "⚪ FOP未判定件数:",
