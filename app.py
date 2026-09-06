@@ -775,6 +775,16 @@ if st.button("前年5日分を照合"):
         len(revision_fast_df)
     )
 
+    st.write(
+        "PrevProgress 5%以下:",
+        len(revision_fast_df[revision_fast_df["PrevProgress"] <= 5])
+    )
+
+    st.write(
+        "PrevProgress 10%以下:",
+        len(revision_fast_df[revision_fast_df["PrevProgress"] <= 10])
+    )
+    
     st.dataframe(
         revision_fast_df[
             [
