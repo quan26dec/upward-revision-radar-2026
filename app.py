@@ -790,6 +790,11 @@ if st.button("前年5日分を照合"):
         & (normal_fast_df["ProgressDiff"] >= 10)
     ].copy()
 
+    dual_fast_df["RadarScore"] = (
+        dual_fast_df["ThresholdGap"]
+        + dual_fast_df["ProgressDiff"]
+    )
+    
     dual_fast_df = dual_fast_df.sort_values(
         "ThresholdGap",
         ascending=False
@@ -814,6 +819,7 @@ if st.button("前年5日分を照合"):
                 "CurPerType",
                 "OPProgress",
                 "ThresholdGap",
+                "RadarScore",
                 "PrevProgress",
                 "ProgressDiff",
                 "OPYoY"
