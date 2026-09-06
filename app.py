@@ -691,7 +691,27 @@ if st.button("前年5日分を照合"):
                 else:
                     direction = "➡️ 据え置き"
 
-                rate = (new_fop / old_fop - 1) * 100
+                if old_fop > 0:
+                    rate = (new_fop / old_fop - 1) * 100
+                    revision_note = ""
+
+                elif old_fop < 0 and new_fop > 0:
+                    rate = None
+                    revision_note = "黒字転換"
+
+                elif old_fop < 0 and new_fop < 0:
+                    rate = None
+
+                    if new_fop > old_fop:
+                        revision_note = "赤字縮小"
+                    elif new_fop < old_fop:
+                        revision_note = "赤字拡大"
+                    else:
+                        revision_note = "赤字据え置き"
+
+                else:
+                    rate = None
+                    revision_note = "旧FOPゼロ"
 
                 fop_results.append(
                     {
@@ -699,7 +719,8 @@ if st.button("前年5日分を照合"):
                         "旧FOP": old_fop,
                         "新FOP": new_fop,
                         "修正率": rate,
-                        "判定": direction
+                        "判定": direction,
+                        "修正タイプ": revision_note
                     }
                 )
 
