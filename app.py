@@ -733,6 +733,7 @@ if st.button("前年5日分を照合"):
 
         st.dataframe(fop_result_df)        
 
+        
         judged_codes = set(
             fop_result_df["Code4"].astype(str)
         )
@@ -747,6 +748,25 @@ if st.button("前年5日分を照合"):
             unresolved_codes
         )
 
+        fop2q_check_df = revision_today_fast_df[
+            (revision_today_fast_df["Code4"].isin(unresolved_codes))
+            & (revision_today_fast_df["FOP2Q"].notna())
+        ].copy()
+
+        st.write(
+            "🔎 FOP2Qあり件数:",
+            len(fop2q_check_df)
+        )
+
+        st.dataframe(
+            fop2q_check_df[
+                [
+                    "Code4",
+                    "FOP2Q"
+                ]
+            ]
+        )
+        
         st.write(
             "⚪ FOP未判定件数:",
             len(unresolved_codes)
