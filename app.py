@@ -998,6 +998,41 @@ if st.button("前年5日分を照合"):
             fncop_results
         )
 
+        if len(fncop_result_df) > 0:
+
+            fncop_result_df["判定"] = "➡️ 据え置き"
+            fncop_result_df["修正タイプ"] = ""
+
+            fncop_result_df.loc[
+                fncop_result_df["新FNCOP"] > fncop_result_df["旧FNCOP"],
+                "判定"
+            ] = "🔺 上方修正"
+
+            fncop_result_df.loc[
+                fncop_result_df["新FNCOP"] < fncop_result_df["旧FNCOP"],
+                "判定"
+            ] = "🔻 下方修正"
+
+            fncop_result_df.loc[
+                (fncop_result_df["旧FNCOP"] < 0)
+                & (fncop_result_df["新FNCOP"] > 0),
+                "修正タイプ"
+            ] = "黒字転換"
+
+            fncop_result_df.loc[
+                (fncop_result_df["旧FNCOP"] < 0)
+                & (fncop_result_df["新FNCOP"] < 0)
+                & (fncop_result_df["新FNCOP"] > fncop_result_df["旧FNCOP"]),
+                "修正タイプ"
+            ] = "赤字縮小"
+
+            fncop_result_df.loc[
+                (fncop_result_df["旧FNCOP"] < 0)
+                & (fncop_result_df["新FNCOP"] < 0)
+                & (fncop_result_df["新FNCOP"] < fncop_result_df["旧FNCOP"]),
+                "修正タイプ"
+            ] = "赤字拡大"
+        
         st.write(
             "🔎 FNCOP新旧比較件数:",
             len(fncop_result_df)
