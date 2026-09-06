@@ -812,6 +812,31 @@ if st.button("前年5日分を照合"):
             fop2q_history_results
         )
 
+        if len(fop2q_history_df) > 0:
+
+            fop2q_history_df["修正率"] = (
+                (
+                    fop2q_history_df["新FOP2Q"]
+                    / fop2q_history_df["旧FOP2Q"]
+                    - 1
+                )
+                * 100
+            )
+
+            fop2q_history_df["判定"] = "➡️ 据え置き"
+
+            fop2q_history_df.loc[
+                fop2q_history_df["新FOP2Q"]
+                > fop2q_history_df["旧FOP2Q"],
+                "判定"
+            ] = "🔺 上方修正"
+
+            fop2q_history_df.loc[
+                fop2q_history_df["新FOP2Q"]
+                < fop2q_history_df["旧FOP2Q"],
+                "判定"
+            ] = "🔻 下方修正"
+        
         st.write(
             "🔎 FOP2Q新旧比較:",
             len(fop2q_history_df)
