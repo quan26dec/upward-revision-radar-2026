@@ -815,6 +815,11 @@ if st.button("前年5日分を照合"):
     )    
 
     st.write(
+        "📊 660社全体 四半期別件数:",
+        calc_df["CurPerType"].value_counts()
+    )
+    
+    st.write(
         "📊 2軸強シグナル 四半期別件数:",
         dual_fast_df["CurPerType"].value_counts()
     )
