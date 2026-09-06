@@ -432,6 +432,8 @@ if st.button("前年同期を照合"):
             suffixes=("_current", "_previous")
         )
 
+        st.write("current_df列名:", current_df.columns.tolist())
+        
         st.write("今年取得件数:", len(current_df))
         st.write("前年取得件数:", len(previous_df))
         st.write("前年同期一致件数:", len(matched_df))
