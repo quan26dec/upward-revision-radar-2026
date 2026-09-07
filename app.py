@@ -1633,6 +1633,20 @@ if st.button("前年5日分を照合"):
         test_9635_response.json()["data"]
     )
 
+    test_9635_current_df = test_9635_df[
+        test_9635_df["DiscDate"] <= "2026-08-07"
+    ].sort_values(
+        "DiscDate",
+        ascending=False
+    )
+
+    st.write(
+        "🧪 9635 今期決算期:",
+        test_9635_current_df.iloc[0]["CurFYEn"],
+        "四半期:",
+        test_9635_current_df.iloc[0]["CurPerType"]
+    )
+    
     test_9635_past_revision_df = test_9635_df[
         (test_9635_df["DocType"] == "EarnForecastRevision")
         & (test_9635_df["DiscDate"] < "2026-08-07")
