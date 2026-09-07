@@ -1590,9 +1590,9 @@ if st.button("前年5日分を照合"):
         how="left"
     )
     
-    st.write("🧪 Radar上位5社 API取得テスト")
+    st.write("📡 Radar上位20社 今期修正チェック")
     st.dataframe(revision_check_test_result_df)
-    
+
     revision_status_map = dict(
         zip(
             integrated_result_df["Code4"].astype(str),
