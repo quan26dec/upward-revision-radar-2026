@@ -1528,8 +1528,21 @@ if st.button("前年5日分を照合"):
             headers=headers
         )
 
+        test_json = test_response.json()
+
+        if "data" not in test_json:
+            revision_check_test_results.append(
+                {
+                    "Code4": test_code,
+                    "取得件数": 0,
+                    "CurFYEn": "",
+                    "今期修正ステータス": f"⚠️ API取得失敗 {test_response.status_code}"
+                }
+            )
+            continue
+
         test_df = pd.DataFrame(
-            test_response.json()["data"]
+            test_json["data"]
         )
 
         test_current_df = test_df[
