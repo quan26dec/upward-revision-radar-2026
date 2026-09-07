@@ -1623,6 +1623,26 @@ if st.button("前年5日分を照合"):
 
     st.write("通常型件数:", len(normal_fast_df))
 
+    test_9635_response = requests.get(
+        financial_url,
+        params={"code": "9635"},
+        headers=headers
+    )
+
+    test_9635_df = pd.DataFrame(
+        test_9635_response.json()["data"]
+    )
+
+    test_9635_past_revision_df = test_9635_df[
+        (test_9635_df["DocType"] == "EarnForecastRevision")
+        & (test_9635_df["DiscDate"] < "2026-08-07")
+    ].copy()
+
+    st.write(
+        "🧪 9635 過去の業績予想修正件数:",
+        len(test_9635_past_revision_df)
+    )
+    
     st.subheader("🎯 最終Radarランキング")
 
     st.dataframe(
