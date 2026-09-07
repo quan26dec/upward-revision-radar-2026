@@ -1711,6 +1711,7 @@ if st.button("前年5日分を照合"):
                 "GrowthType",
                 "SignalType",
                 "今回修正ステータス",
+                "今期修正ステータス",
                 "CurPerType",
                 "OP_previous",
                 "OP_current",
