@@ -1515,7 +1515,7 @@ if st.button("前年5日分を照合"):
         ascending=False
     )
 
-    revision_check_test_df = final_radar_df.head(5).copy()
+    revision_check_test_df = final_radar_df.head(20).copy()
 
     revision_check_test_results = []
 
