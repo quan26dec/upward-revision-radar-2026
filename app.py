@@ -1642,6 +1642,22 @@ if st.button("前年5日分を照合"):
         "🧪 9635 過去の業績予想修正件数:",
         len(test_9635_past_revision_df)
     )
+
+    st.dataframe(
+        test_9635_past_revision_df[
+            [
+                "DiscDate",
+                "DocType",
+                "FOP",
+                "FOP2Q",
+                "FOdP",
+                "FNCOP"
+            ]
+        ].sort_values(
+            "DiscDate",
+            ascending=False
+        )
+    )
     
     st.subheader("🎯 最終Radarランキング")
 
