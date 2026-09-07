@@ -1515,6 +1515,37 @@ if st.button("前年5日分を照合"):
         ascending=False
     )
 
+    revision_check_test_df = final_radar_df.head(5).copy()
+
+    revision_check_test_results = []
+
+    for _, row in revision_check_test_df.iterrows():
+        test_code = str(row["Code4"])
+
+        test_response = requests.get(
+            financial_url,
+            params={"code": test_code},
+            headers=headers
+        )
+
+        test_df = pd.DataFrame(
+            test_response.json()["data"]
+        )
+
+        revision_check_test_results.append(
+            {
+                "Code4": test_code,
+                "取得件数": len(test_df)
+            }
+        )
+
+    revision_check_test_result_df = pd.DataFrame(
+        revision_check_test_results
+    )
+
+    st.write("🧪 Radar上位5社 API取得テスト")
+    st.dataframe(revision_check_test_result_df)
+    
     revision_status_map = dict(
         zip(
             integrated_result_df["Code4"].astype(str),
