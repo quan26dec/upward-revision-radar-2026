@@ -1661,6 +1661,7 @@ if st.button("前年5日分を照合"):
         test_9635_past_revision_df[
             [
                 "DiscDate",
+                "CurFYEn",
                 "DocType",
                 "FOP",
                 "FOP2Q",
