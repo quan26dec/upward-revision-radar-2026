@@ -1646,6 +1646,19 @@ if st.button("前年5日分を照合"):
         "四半期:",
         test_9635_current_df.iloc[0]["CurPerType"]
     )
+
+    test_9635_current_fy = test_9635_current_df.iloc[0]["CurFYEn"]
+
+    test_9635_current_fy_revision_df = test_9635_df[
+        (test_9635_df["DocType"] == "EarnForecastRevision")
+        & (test_9635_df["CurFYEn"] == test_9635_current_fy)
+        & (test_9635_df["DiscDate"] < "2026-08-07")
+    ].copy()
+
+    if len(test_9635_current_fy_revision_df) > 0:
+        st.write("✅ 9635 今期既修正")
+    else:
+        st.write("📡 9635 今期未修正")
     
     test_9635_past_revision_df = test_9635_df[
         (test_9635_df["DocType"] == "EarnForecastRevision")
