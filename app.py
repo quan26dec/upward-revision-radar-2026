@@ -1532,10 +1532,32 @@ if st.button("前年5日分を照合"):
             test_response.json()["data"]
         )
 
+        test_current_df = test_df[
+            test_df["DiscDate"] <= "2026-08-07"
+        ].sort_values(
+            "DiscDate",
+            ascending=False
+        )
+
+        test_current_fy = test_current_df.iloc[0]["CurFYEn"]
+
+        test_current_fy_revision_df = test_df[
+            (test_df["DocType"] == "EarnForecastRevision")
+            & (test_df["CurFYEn"] == test_current_fy)
+            & (test_df["DiscDate"] < "2026-08-07")
+        ].copy()
+
+        if len(test_current_fy_revision_df) > 0:
+            test_revision_status = "✅ 今期既修正"
+        else:
+            test_revision_status = "📡 今期未修正"
+        
         revision_check_test_results.append(
             {
                 "Code4": test_code,
-                "取得件数": len(test_df)
+                "取得件数": len(test_df),
+                "CurFYEn": test_current_fy,
+                "今期修正ステータス": test_revision_status
             }
         )
 
