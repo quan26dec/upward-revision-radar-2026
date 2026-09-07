@@ -1578,6 +1578,18 @@ if st.button("前年5日分を照合"):
         revision_check_test_results
     )
 
+    final_radar_df = final_radar_df.merge(
+        revision_check_test_result_df[
+            [
+                "Code4",
+                "CurFYEn",
+                "今期修正ステータス"
+            ]
+        ],
+        on="Code4",
+        how="left"
+    )
+    
     st.write("🧪 Radar上位5社 API取得テスト")
     st.dataframe(revision_check_test_result_df)
     
