@@ -1421,6 +1421,19 @@ if st.button("前年5日分を照合"):
         - calc_df["ProgressThreshold"]
     )
 
+    black_turn_threshold_df = calc_df[
+        (calc_df["OP_previous"] <= 0)
+        & (calc_df["OP_current"] > 0)
+        & (calc_df["ProgressThreshold"].notna())
+        & (calc_df["OPProgress"] >= calc_df["ProgressThreshold"])
+    ].copy()
+
+    st.write(
+        "🚀 黒字転換＋進捗基準突破:",
+        len(black_turn_threshold_df),
+        "社"
+    )
+    
     st.dataframe(
         calc_df[
             [
