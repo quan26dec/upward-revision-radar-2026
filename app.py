@@ -1798,3 +1798,30 @@ if st.button("前年5日分を照合"):
         "3238 履歴API:",
         recovery_test_response.status_code
     )
+    if recovery_test_response.status_code == 200:
+
+        recovery_test_df = pd.DataFrame(
+            recovery_test_response.json()["data"]
+        )
+
+        recovery_test_current_df = recovery_test_df[
+            recovery_test_df["DiscDate"] <= "2026-08-07"
+        ].sort_values(
+            "DiscDate",
+            ascending=False
+        )
+
+        recovery_test_current_fy = (
+            recovery_test_current_df.iloc[0]["CurFYEn"]
+        )
+
+        recovery_test_revision_df = recovery_test_df[
+            (recovery_test_df["DocType"] == "EarnForecastRevision")
+            & (recovery_test_df["CurFYEn"] == recovery_test_current_fy)
+            & (recovery_test_df["DiscDate"] < "2026-08-07")
+        ].copy()
+
+        st.write(
+            "3238 今期既修正件数:",
+            len(recovery_test_revision_df)
+        )
