@@ -1360,6 +1360,17 @@ if st.button("前年5日分を照合"):
         * 100
     )
 
+    black_turn_df = calc_df[
+        (calc_df["OP_previous"] <= 0)
+        & (calc_df["OP_current"] > 0)
+    ].copy()
+
+    st.write(
+        "🚀 前年OP≤0 → 今期OP>0:",
+        len(black_turn_df),
+        "社"
+    )
+    
     st.write(
         "一括計算件数:",
         len(calc_df)
