@@ -1786,7 +1786,7 @@ if st.button("前年5日分を照合"):
 
     st.subheader("🧪 急回復Radar 修正履歴テスト")
 
-    recovery_test_code = "3238"
+    recovery_test_code = "1994"
 
     recovery_test_response = requests.get(
         financial_url,
@@ -1795,7 +1795,7 @@ if st.button("前年5日分を照合"):
     )
 
     st.write(
-        "3238 履歴API:",
+        "1994 履歴API:",
         recovery_test_response.status_code
     )
     if recovery_test_response.status_code == 200:
@@ -1822,6 +1822,6 @@ if st.button("前年5日分を照合"):
         ].copy()
 
         st.write(
-            "3238 今期既修正件数:",
+            "1994 今期既修正件数:",
             len(recovery_test_revision_df)
         )
