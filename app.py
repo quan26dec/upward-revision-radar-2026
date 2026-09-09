@@ -1370,6 +1370,22 @@ if st.button("前年5日分を照合"):
         len(black_turn_df),
         "社"
     )
+
+    st.dataframe(
+        black_turn_df[
+            [
+                "Code4",
+                "CurPerType",
+                "OP_previous",
+                "OP_current",
+                "FOP_current",
+                "OPProgress",
+                "PrevProgress",
+                "ProgressDiff",
+                "OPYoY"
+            ]
+        ]
+    )
     
     st.write(
         "一括計算件数:",
