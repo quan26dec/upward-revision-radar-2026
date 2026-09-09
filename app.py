@@ -1786,42 +1786,14 @@ if st.button("前年5日分を照合"):
 
     st.subheader("🧪 急回復Radar 修正履歴テスト")
 
-    recovery_test_code = "1994"
-
-    recovery_test_response = requests.get(
-        financial_url,
-        params={"code": recovery_test_code},
-        headers=headers
+    recovery_test_codes = (
+        black_turn_threshold_df["Code4"]
+        .astype(str)
+        .tolist()
     )
 
     st.write(
-        "1994 履歴API:",
-        recovery_test_response.status_code
+        "🚀 急回復Radar 対象コード:",
+        recovery_test_codes
     )
-    if recovery_test_response.status_code == 200:
 
-        recovery_test_df = pd.DataFrame(
-            recovery_test_response.json()["data"]
-        )
-
-        recovery_test_current_df = recovery_test_df[
-            recovery_test_df["DiscDate"] <= "2026-08-07"
-        ].sort_values(
-            "DiscDate",
-            ascending=False
-        )
-
-        recovery_test_current_fy = (
-            recovery_test_current_df.iloc[0]["CurFYEn"]
-        )
-
-        recovery_test_revision_df = recovery_test_df[
-            (recovery_test_df["DocType"] == "EarnForecastRevision")
-            & (recovery_test_df["CurFYEn"] == recovery_test_current_fy)
-            & (recovery_test_df["DiscDate"] < "2026-08-07")
-        ].copy()
-
-        st.write(
-            "1994 今期既修正件数:",
-            len(recovery_test_revision_df)
-        )
