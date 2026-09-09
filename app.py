@@ -1783,3 +1783,18 @@ if st.button("前年5日分を照合"):
             ]
         ]
     )
+
+    st.subheader("🧪 急回復Radar 修正履歴テスト")
+
+    recovery_test_code = "3238"
+
+    recovery_test_response = requests.get(
+        financial_url,
+        params={"code": recovery_test_code},
+        headers=headers
+    )
+
+    st.write(
+        "3238 履歴API:",
+        recovery_test_response.status_code
+    )
