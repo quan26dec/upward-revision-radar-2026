@@ -1433,6 +1433,24 @@ if st.button("前年5日分を照合"):
         len(black_turn_threshold_df),
         "社"
     )
+
+    st.dataframe(
+        black_turn_threshold_df[
+            [
+                "Code4",
+                "CurPerType",
+                "OP_previous",
+                "OP_current",
+                "FOP_current",
+                "OPProgress",
+                "ProgressThreshold",
+                "ThresholdGap",
+                "PrevProgress",
+                "ProgressDiff",
+                "OPYoY"
+            ]
+        ]
+    )
     
     st.dataframe(
         calc_df[
