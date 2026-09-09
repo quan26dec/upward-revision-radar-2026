@@ -1797,3 +1797,27 @@ if st.button("前年5日分を照合"):
         recovery_test_codes
     )
 
+    recovery_revision_results = []
+
+    for recovery_code in recovery_test_codes:
+
+        recovery_response = requests.get(
+            financial_url,
+            params={"code": recovery_code},
+            headers=headers
+        )
+
+        recovery_revision_results.append(
+            {
+                "Code4": recovery_code,
+                "APIステータス": recovery_response.status_code
+            }
+        )
+
+    recovery_revision_result_df = pd.DataFrame(
+        recovery_revision_results
+    )
+
+    st.dataframe(
+        recovery_revision_result_df
+    )
