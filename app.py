@@ -1807,13 +1807,41 @@ if st.button("前年5日分を照合"):
             headers=headers
         )
 
+        recovery_df = pd.DataFrame(
+            recovery_response.json()["data"]
+        )
+
+        recovery_current_df = recovery_df[
+            recovery_df["DiscDate"] <= "2026-08-07"
+        ].sort_values(
+            "DiscDate",
+            ascending=False
+        )
+
+        recovery_current_fy = (
+            recovery_current_df.iloc[0]["CurFYEn"]
+        )
+
+        recovery_revision_df = recovery_df[
+            (recovery_df["DocType"] == "EarnForecastRevision")
+            & (recovery_df["CurFYEn"] == recovery_current_fy)
+            & (recovery_df["DiscDate"] < "2026-08-07")
+        ].copy()
+
+        if len(recovery_revision_df) > 0:
+            recovery_revision_status = "✅ 今期既修正"
+        else:
+            recovery_revision_status = "📡 今期未修正"
+
         recovery_revision_results.append(
             {
                 "Code4": recovery_code,
-                "APIステータス": recovery_response.status_code
+                "CurFYEn": recovery_current_fy,
+                "今期修正ステータス": recovery_revision_status,
+                "今期既修正件数": len(recovery_revision_df)
             }
         )
-
+    
     recovery_revision_result_df = pd.DataFrame(
         recovery_revision_results
     )
