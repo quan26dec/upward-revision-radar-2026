@@ -1858,7 +1858,7 @@ if st.button("前年5日分を照合"):
     recovery_revision_result_df["今回修正ステータス"] = (
         recovery_revision_result_df["Code4"]
         .astype(str)
-        .map(revision_status_map)
+        .map(revision_all_status_map)
         .fillna("📡 今回修正なし")
     )
     
