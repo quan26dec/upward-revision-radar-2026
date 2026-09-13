@@ -1914,3 +1914,35 @@ if st.button("前年5日分を照合"):
                 ["DiscDate", "DocType"] + check_cols_6836
             ]
         )
+
+        check_6836_df["FOP_num"] = pd.to_numeric(
+            check_6836_df["FOP"],
+            errors="coerce"
+        )
+
+        check_6836_df["FOP2Q_num"] = pd.to_numeric(
+            check_6836_df["FOP2Q"],
+            errors="coerce"
+        )
+
+        check_6836_prior_df = check_6836_df[
+            check_6836_df["DiscDate"] < "2026-08-07"
+        ].sort_values(
+            "DiscDate",
+            ascending=False
+        )
+
+        st.write(
+            "6836 8/7以前の直近予想:"
+        )
+
+        st.dataframe(
+            check_6836_prior_df[
+                [
+                    "DiscDate",
+                    "DocType",
+                    "FOP_num",
+                    "FOP2Q_num"
+                ]
+            ].head(5)
+        )
