@@ -1897,3 +1897,20 @@ if st.button("前年5日分を照合"):
         st.dataframe(
             check_6836_today_df
         )
+
+        check_cols_6836 = [
+            "FOP",
+            "FOP2Q",
+            "FNCOP",
+            "FNCOP2Q",
+            "FOdP",
+            "FOdP2Q",
+            "FNP",
+            "FNP2Q"
+        ]
+
+        st.dataframe(
+            check_6836_today_df[
+                ["DiscDate", "DocType"] + check_cols_6836
+            ]
+        )
