@@ -1973,3 +1973,19 @@ if st.button("前年5日分を照合"):
                 ]
             ]
         )
+
+        if (
+            len(check_6836_today_df) > 0
+            and len(check_6836_0515_df) > 0
+            and check_6836_0515_df[
+                check_cols_6836
+            ].isna().all().all()
+        ):
+            check_6836_status = "⚠️ 短信内予想あり・比較元なし"
+        else:
+            check_6836_status = "📡 比較可能"
+
+        st.write(
+            "6836 予想修正確認:",
+            check_6836_status
+        )
