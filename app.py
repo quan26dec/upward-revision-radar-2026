@@ -1865,3 +1865,35 @@ if st.button("前年5日分を照合"):
     st.dataframe(
         recovery_revision_result_df
     )
+
+    st.subheader("🧪 6836 当日開示確認")
+
+    check_6836_response = requests.get(
+        financial_url,
+        params={"code": "6836"},
+        headers=headers
+    )
+
+    st.write(
+        "6836 履歴API:",
+        check_6836_response.status_code
+    )
+
+    if check_6836_response.status_code == 200:
+
+        check_6836_df = pd.DataFrame(
+            check_6836_response.json()["data"]
+        )
+
+        check_6836_today_df = check_6836_df[
+            check_6836_df["DiscDate"] == "2026-08-07"
+        ].copy()
+
+        st.write(
+            "6836 8/7開示件数:",
+            len(check_6836_today_df)
+        )
+
+        st.dataframe(
+            check_6836_today_df
+        )
