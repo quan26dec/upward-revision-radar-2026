@@ -1946,3 +1946,30 @@ if st.button("前年5日分を照合"):
                 ]
             ].head(5)
         )
+
+        check_6836_0515_df = check_6836_df[
+            check_6836_df["DiscDate"] == "2026-05-15"
+        ].copy()
+
+        st.write(
+            "6836 5/15 予想項目確認:"
+        )
+
+        st.dataframe(
+            check_6836_0515_df[
+                [
+                    "DiscDate",
+                    "DocType",
+                    "FOP",
+                    "FOP2Q",
+                    "FNCOP",
+                    "FNCOP2Q",
+                    "FOdP",
+                    "FOdP2Q",
+                    "FNP",
+                    "FNP2Q",
+                    "FEPS",
+                    "FEPS2Q"
+                ]
+            ]
+        )
