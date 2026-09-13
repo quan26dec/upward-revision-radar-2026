@@ -1658,10 +1658,19 @@ if st.button("前年5日分を照合"):
         )
     )
 
+    revision_all_status_map = {
+        str(code): "⚪ 今回修正あり・方向未判定"
+        for code in revision_today_codes
+    }
+
+    revision_all_status_map.update(
+        revision_status_map
+    )
+    
     final_radar_df["今回修正ステータス"] = (
         final_radar_df["Code4"]
         .astype(str)
-        .map(revision_status_map)
+        .map(revision_all_status_map)
         .fillna("📡 今回修正なし")
     )
 
