@@ -1974,12 +1974,17 @@ if st.button("前年5日分を照合"):
             ]
         )
 
+        check_6836_0515_numeric = check_6836_0515_df[
+            check_cols_6836
+        ].apply(
+            pd.to_numeric,
+            errors="coerce"
+        )
+
         if (
             len(check_6836_today_df) > 0
             and len(check_6836_0515_df) > 0
-            and check_6836_0515_df[
-                check_cols_6836
-            ].isna().all().all()
+            and check_6836_0515_numeric.isna().all().all()
         ):
             check_6836_status = "⚠️ 短信内予想あり・比較元なし"
         else:
