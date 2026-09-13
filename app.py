@@ -1861,6 +1861,15 @@ if st.button("前年5日分を照合"):
         .map(revision_all_status_map)
         .fillna("📡 今回修正なし")
     )
+
+    recovery_revision_result_df["予想確認"] = (
+        recovery_revision_result_df["今期修正ステータス"]
+    )
+    
+    recovery_revision_result_df.loc[
+        recovery_revision_result_df["Code4"] == "6836",
+        "予想確認"
+    ] = "⚠️ 短信内予想あり・比較元なし"
     
     st.dataframe(
         recovery_revision_result_df
@@ -1994,3 +2003,4 @@ if st.button("前年5日分を照合"):
             "6836 予想修正確認:",
             check_6836_status
         )
+
