@@ -2004,3 +2004,43 @@ if st.button("前年5日分を照合"):
             check_6836_status
         )
 
+    st.subheader("🧪 3238 当日開示確認")
+
+    check_3238_response = requests.get(
+        financial_url,
+        params={"code": "3238"},
+        headers=headers
+    )
+
+    st.write(
+        "3238 履歴API:",
+        check_3238_response.status_code
+    )
+
+    if check_3238_response.status_code == 200:
+
+        check_3238_df = pd.DataFrame(
+            check_3238_response.json()["data"]
+        )
+
+        check_3238_today_df = check_3238_df[
+            check_3238_df["DiscDate"] == "2026-08-07"
+        ].copy()
+
+        st.write(
+            "3238 8/7開示件数:",
+            len(check_3238_today_df)
+        )
+
+        st.dataframe(
+            check_3238_today_df[
+                [
+                    "DiscDate",
+                    "DocType",
+                    "FOP",
+                    "FOP2Q",
+                    "FNCOP",
+                    "FNCOP2Q"
+                ]
+            ]
+        )
