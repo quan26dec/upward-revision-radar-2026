@@ -1946,3 +1946,24 @@ if st.button("前年5日分を照合"):
         "🚀 急回復Radar 候補列:",
         recovery_keyword_cols
     )
+
+    recovery_display_cols = [
+        "Code4",
+        "CurPerType",
+        "OPProgress",
+        "PrevProgress",
+        "ProgressDiff",
+        "ProgressThreshold",
+        "ThresholdGap",
+        "今回修正ステータス",
+        "今期修正ステータス",
+        "予想確認"
+    ]
+
+    st.subheader("🚀 急回復Radar 表示テスト")
+
+    st.dataframe(
+        recovery_radar_df[
+            recovery_display_cols
+        ]
+    )
