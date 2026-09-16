@@ -1919,7 +1919,13 @@ if st.button("前年5日分を照合"):
     )
 
     st.subheader("🚀 急回復Radar 統合テスト")
-
-    st.dataframe(
-        recovery_radar_df
+    
+    st.write(
+        "統合後件数:",
+        len(recovery_radar_df)
+    )
+    
+    st.write(
+        "統合後の列:",
+        recovery_radar_df.columns.tolist()
     )
