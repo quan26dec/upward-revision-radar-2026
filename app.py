@@ -1951,10 +1951,10 @@ if st.button("前年5日分を照合"):
         "Code4",
         "CurPerType",
         "OPProgress",
-        "PrevProgress",
-        "ProgressDiff",
         "ProgressThreshold",
         "ThresholdGap",
+        "PrevProgress",
+        "ProgressDiff",
         "今回修正ステータス",
         "今期修正ステータス",
         "予想確認"
