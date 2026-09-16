@@ -1831,6 +1831,20 @@ if st.button("前年5日分を照合"):
             recovery_current_df.iloc[0]["CurFYEn"]
         )
 
+        recovery_same_fy_prior_df = recovery_df[
+            (recovery_df["CurFYEn"] == recovery_current_fy)
+            & (recovery_df["DiscDate"] < "2026-08-07")
+        ].copy()
+
+        recovery_same_fy_prior_df["FOP_num"] = pd.to_numeric(
+            recovery_same_fy_prior_df["FOP"],
+            errors="coerce"
+        )
+
+        recovery_comparable_df = recovery_same_fy_prior_df[
+            recovery_same_fy_prior_df["FOP_num"].notna()
+        ].copy()
+        
         recovery_revision_df = recovery_df[
             (recovery_df["DocType"] == "EarnForecastRevision")
             & (recovery_df["CurFYEn"] == recovery_current_fy)
@@ -1842,15 +1856,21 @@ if st.button("前年5日分を照合"):
         else:
             recovery_revision_status = "📡 今期未修正"
 
+        if len(recovery_comparable_df) > 0:
+            recovery_forecast_status = "📡 比較元あり"
+        else:
+            recovery_forecast_status = "⚠️ 比較元なし"
+        
         recovery_revision_results.append(
             {
                 "Code4": recovery_code,
                 "CurFYEn": recovery_current_fy,
                 "今期修正ステータス": recovery_revision_status,
-                "今期既修正件数": len(recovery_revision_df)
+                "今期既修正件数": len(recovery_revision_df),
+                "比較元ステータス": recovery_forecast_status
             }
         )
-    
+        
     recovery_revision_result_df = pd.DataFrame(
         recovery_revision_results
     )
