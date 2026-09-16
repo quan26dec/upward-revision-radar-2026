@@ -1947,6 +1947,27 @@ if st.button("前年5日分を照合"):
         recovery_keyword_cols
     )
 
+    recovery_name_cols = [
+        col for col in recovery_radar_df.columns
+        if any(
+            keyword in str(col).lower()
+            for keyword in [
+                "company",
+                "name",
+                "cname",
+                "issue",
+                "銘柄",
+                "会社",
+                "企業"
+            ]
+        )
+    ]
+
+    st.write(
+        "🏢 企業名候補列:",
+        recovery_name_cols
+    )
+    
     recovery_display_cols = [
         "Code4",
         "CurPerType",
