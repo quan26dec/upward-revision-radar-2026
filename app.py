@@ -1902,3 +1902,24 @@ if st.button("前年5日分を照合"):
     st.dataframe(
         recovery_revision_result_df
     )
+
+    recovery_radar_df = black_turn_threshold_df.merge(
+        recovery_revision_result_df[
+            [
+                "Code4",
+                "今期修正ステータス",
+                "今期既修正件数",
+                "比較元ステータス",
+                "今回修正ステータス",
+                "予想確認"
+            ]
+        ],
+        on="Code4",
+        how="left"
+    )
+
+    st.subheader("🚀 急回復Radar 統合テスト")
+
+    st.dataframe(
+        recovery_radar_df
+    )
