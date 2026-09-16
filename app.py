@@ -2071,6 +2071,7 @@ if st.button("前年5日分を照合"):
                 [
                     "DiscDate",
                     "DocType",
+                    "CurFYEn",
                     "FOP_num",
                     "FOP2Q_num"
                 ]
