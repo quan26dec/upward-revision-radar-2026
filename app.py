@@ -1967,9 +1967,16 @@ if st.button("前年5日分を照合"):
         "🏢 企業名候補列:",
         recovery_name_cols
     )
+
+    recovery_radar_df = recovery_radar_df.merge(
+        name_df,
+        on="Code4",
+        how="left"
+    )
     
     recovery_display_cols = [
         "Code4",
+        "CoName",
         "CurPerType",
         "OPProgress",
         "ProgressThreshold",
