@@ -1925,7 +1925,24 @@ if st.button("前年5日分を照合"):
         len(recovery_radar_df)
     )
     
+    recovery_keyword_cols = [
+        col for col in recovery_radar_df.columns
+        if any(
+            keyword in str(col)
+            for keyword in [
+                "Code",
+                "Company",
+                "Name",
+                "CurPerType",
+                "Progress",
+                "Threshold",
+                "Gap",
+                "Score"
+            ]
+        )
+    ]
+
     st.write(
-        "統合後の列:",
-        recovery_radar_df.columns.tolist()
+        "🚀 急回復Radar 候補列:",
+        recovery_keyword_cols
     )
