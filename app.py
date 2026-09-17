@@ -1941,13 +1941,18 @@ if st.button("前年5日分を照合"):
             )
         ]
     )
+
+    extra_name_map = {
+        "6439": "中日本鋳工",
+        "9643": "中日本興業"
+    }
     
     recovery_radar_df = recovery_radar_df.merge(
         name_df,
         on="Code4",
         how="left"
     )
-
+    
     recovery_radar_df["CoName"] = (
         recovery_radar_df["CoName"]
         .fillna(
