@@ -2007,6 +2007,22 @@ if st.button("前年5日分を照合"):
             axis=1
         )
     )
+
+    radar_priority_map = {
+        "🔥 未修正・比較可能": 1,
+        "⚠️ 未修正・比較元なし": 2,
+        "✅ 既修正": 3
+    }
+
+    recovery_radar_df["RadarPriority"] = (
+        recovery_radar_df["Radar判定"]
+        .map(radar_priority_map)
+    )
+
+    recovery_radar_df = recovery_radar_df.sort_values(
+        ["RadarPriority", "RecoveryScore"],
+        ascending=[True, False]
+    )
     
     recovery_display_cols = [
         "Code4",
