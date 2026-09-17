@@ -1933,14 +1933,6 @@ if st.button("前年5日分を照合"):
     )
 
     st.write("🔍 name_df 6439・9643確認")
-    
-    st.dataframe(
-        name_df[
-            name_df["Code4"].astype(str).isin(
-                ["6439", "9643"]
-            )
-        ]
-    )
 
     extra_name_map = {
         "6439": "中日本鋳工",
