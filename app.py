@@ -1995,5 +1995,23 @@ if st.button("前年5日分を照合"):
     st.dataframe(
         recovery_radar_df[
             recovery_display_cols
-        ]
+        ].rename(
+            columns={
+                "Code4": "コード",
+                "CoName": "企業名",
+                "Radar判定": "Radar判定",
+                "CurPerType": "決算期",
+                "OPProgress": "営業利益進捗率",
+                "ProgressThreshold": "基準進捗率",
+                "ThresholdGap": "基準超過",
+                "PrevProgress": "前年進捗率",
+                "ProgressDiff": "前年差",
+                "RecoveryScore": "急回復Score",
+                "今回修正ステータス": "今回修正",
+                "今期修正ステータス": "今期修正",
+                "予想確認": "予想確認"
+            }
+        ),
+        hide_index=True,
+        use_container_width=True
     )
