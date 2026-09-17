@@ -1966,6 +1966,7 @@ if st.button("前年5日分を照合"):
     )
     
     recovery_display_cols = [
+        "順位",
         "Code4",
         "CoName",
         "Radar判定",
@@ -1981,6 +1982,14 @@ if st.button("前年5日分を照合"):
         "予想確認"
     ]
 
+    recovery_radar_df = recovery_radar_df.reset_index(drop=True)
+    
+    recovery_radar_df.insert(
+        0,
+        "順位",
+        range(1, len(recovery_radar_df) + 1)
+    )
+    
     st.subheader("🚀 急回復Radar")
 
     st.dataframe(
