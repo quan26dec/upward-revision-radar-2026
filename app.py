@@ -279,6 +279,11 @@ if st.button("🚀 200銘柄をスクリーニング"):
         name_df = stock_master_df[
             ["Code4", "CoName"]
         ].drop_duplicates()
+
+        extra_name_map = {
+            "6439": "中日本鋳工",
+            "9643": "中日本興業"
+        }
         
         near_candidate_df = screen_50_df[
             (screen_50_df["ThresholdGap"] >= -5)
@@ -1943,6 +1948,13 @@ if st.button("前年5日分を照合"):
         how="left"
     )
 
+    recovery_radar_df["CoName"] = (
+        recovery_radar_df["CoName"]
+        .fillna(
+            recovery_radar_df["Code4"].map(extra_name_map)
+        )
+    )
+    
     recovery_radar_df["RecoveryScore"] = (
         pd.to_numeric(
             recovery_radar_df["ThresholdGap"],
