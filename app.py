@@ -1990,10 +1990,28 @@ if st.button("前年5日分を照合"):
         "RecoveryScore",
         ascending=False
     )
+
+    def make_recovery_radar_status(row):
+
+        if row["今期修正ステータス"] == "✅ 今期既修正":
+            return "✅ 既修正"
+
+        if row["比較元ステータス"] == "📡 比較元あり":
+            return "🔥 未修正・比較可能"
+
+        return "⚠️ 未修正・比較元なし"
+
+    recovery_radar_df["Radar判定"] = (
+        recovery_radar_df.apply(
+            make_recovery_radar_status,
+            axis=1
+        )
+    )
     
     recovery_display_cols = [
         "Code4",
         "CoName",
+        "Radar判定",
         "CurPerType",
         "OPProgress",
         "ProgressThreshold",
