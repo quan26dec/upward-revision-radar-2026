@@ -1913,6 +1913,16 @@ if st.button("前年5日分を照合"):
         on="Code4",
         how="left"
     )
+
+    st.write("🔍 name_df 6439・9643確認")
+    
+    st.dataframe(
+        name_df[
+            name_df["Code4"].astype(str).isin(
+                ["6439", "9643"]
+            )
+        ]
+    )
     
     recovery_radar_df = recovery_radar_df.merge(
         name_df,
