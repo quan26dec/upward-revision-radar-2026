@@ -1913,57 +1913,7 @@ if st.button("前年5日分を照合"):
         on="Code4",
         how="left"
     )
-
-    st.subheader("🚀 急回復Radar 統合テスト")
     
-    st.write(
-        "統合後件数:",
-        len(recovery_radar_df)
-    )
-    
-    recovery_keyword_cols = [
-        col for col in recovery_radar_df.columns
-        if any(
-            keyword in str(col)
-            for keyword in [
-                "Code",
-                "Company",
-                "Name",
-                "CurPerType",
-                "Progress",
-                "Threshold",
-                "Gap",
-                "Score"
-            ]
-        )
-    ]
-
-    st.write(
-        "🚀 急回復Radar 候補列:",
-        recovery_keyword_cols
-    )
-
-    recovery_name_cols = [
-        col for col in recovery_radar_df.columns
-        if any(
-            keyword in str(col).lower()
-            for keyword in [
-                "company",
-                "name",
-                "cname",
-                "issue",
-                "銘柄",
-                "会社",
-                "企業"
-            ]
-        )
-    ]
-
-    st.write(
-        "🏢 企業名候補列:",
-        recovery_name_cols
-    )
-
     recovery_radar_df = recovery_radar_df.merge(
         name_df,
         on="Code4",
@@ -1980,11 +1930,6 @@ if st.button("前年5日分を照合"):
             recovery_radar_df["ProgressDiff"],
             errors="coerce"
         ).fillna(0)
-    )
-
-    recovery_radar_df = recovery_radar_df.sort_values(
-        "RecoveryScore",
-        ascending=False
     )
 
     def make_recovery_radar_status(row):
@@ -2036,7 +1981,7 @@ if st.button("前年5日分を照合"):
         "予想確認"
     ]
 
-    st.subheader("🚀 急回復Radar 表示テスト")
+    st.subheader("🚀 急回復Radar")
 
     st.dataframe(
         recovery_radar_df[
