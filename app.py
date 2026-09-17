@@ -1964,7 +1964,6 @@ if st.button("前年5日分を照合"):
         ["RadarPriority", "RecoveryScore"],
         ascending=[True, False]
     )
-    
     recovery_display_cols = [
         "順位",
         "Code4",
@@ -1972,14 +1971,14 @@ if st.button("前年5日分を照合"):
         "Radar判定",
         "CurPerType",
         "OPProgress",
-        "ProgressThreshold",
+        "RecoveryScore",
+        "ProgressDiff",
         "ThresholdGap",
         "PrevProgress",
-        "ProgressDiff",
-        "RecoveryScore",
+        "ProgressThreshold",
+        "予想確認",
         "今回修正ステータス",
-        "今期修正ステータス",
-        "予想確認"
+        "今期修正ステータス"
     ]
 
     recovery_radar_df = recovery_radar_df.reset_index(drop=True)
