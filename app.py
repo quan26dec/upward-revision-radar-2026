@@ -1899,10 +1899,6 @@ if st.button("前年5日分を照合"):
         )
     )
     
-    st.dataframe(
-        recovery_revision_result_df
-    )
-
     recovery_radar_df = black_turn_threshold_df.merge(
         recovery_revision_result_df[
             [
