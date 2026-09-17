@@ -1973,6 +1973,23 @@ if st.button("前年5日分を照合"):
         on="Code4",
         how="left"
     )
+
+    recovery_radar_df["RecoveryScore"] = (
+        pd.to_numeric(
+            recovery_radar_df["ThresholdGap"],
+            errors="coerce"
+        ).fillna(0)
+        +
+        pd.to_numeric(
+            recovery_radar_df["ProgressDiff"],
+            errors="coerce"
+        ).fillna(0)
+    )
+
+    recovery_radar_df = recovery_radar_df.sort_values(
+        "RecoveryScore",
+        ascending=False
+    )
     
     recovery_display_cols = [
         "Code4",
@@ -1983,6 +2000,7 @@ if st.button("前年5日分を照合"):
         "ThresholdGap",
         "PrevProgress",
         "ProgressDiff",
+        "RecoveryScore",
         "今回修正ステータス",
         "今期修正ステータス",
         "予想確認"
