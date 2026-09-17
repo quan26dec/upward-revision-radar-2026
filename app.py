@@ -21,6 +21,19 @@ master_df = pd.DataFrame(master_data)
 st.write("銘柄マスター件数:", len(master_df))
 st.dataframe(master_df.head())
 
+st.write("🔍 master_df 6439・9643確認")
+
+st.dataframe(
+    master_df[
+        master_df["Code"]
+        .astype(str)
+        .str[:4]
+        .isin(["6439", "9643"])
+    ][
+        ["Code", "CoName", "ProdCat"]
+    ]
+)
+
 stock_master_df = master_df[
     master_df["ProdCat"].astype(str) == "011"
 ].copy()
